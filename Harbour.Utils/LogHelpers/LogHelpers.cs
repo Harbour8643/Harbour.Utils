@@ -6,8 +6,9 @@ namespace Harbour.Utils
 {
 
     /// <summary>
-    /// 日志帮助类。AppSettings节点可以配置Dos.LogHelper.Debug=0或Dos.LogHelper.Error=0来关闭日志记录。
-    /// 如果不传入path参数，默认是在~/Log/下生成日志文件，也可以在AppSettings节点配置Dos.LogHelper.Path来设置默认日志文件路径，格式：D:\\File\\Log\\。
+    /// 日志帮助类。AppSettings节点可以配置Har.LogHelper.Debug=0或Har.LogHelper.Error=0来关闭日志记录。
+    /// 如果不传入path参数，默认是在~/Log/下生成日志文件，
+    /// 也可以在AppSettings节点配置Har.LogHelper.Path来设置默认日志文件路径，格式：D:\\File\\Log\\。
     /// </summary>
     public class LogHelpers
     {
@@ -51,7 +52,7 @@ namespace Harbour.Utils
                 {
                     if (logtype == LogHelperType.debug)
                     {
-                        var dosDebug = ConfigurationManager.AppSettings["Dos.LogHelper.Debug"];
+                        var dosDebug = ConfigurationManager.AppSettings["Har.LogHelper.Debug"];
                         if (dosDebug != null && dosDebug != "1")
                         {
                             return;
@@ -59,7 +60,7 @@ namespace Harbour.Utils
                     }
                     else
                     {
-                        var dosError = ConfigurationManager.AppSettings["Dos.LogHelper.Error"];
+                        var dosError = ConfigurationManager.AppSettings["Har.LogHelper.Error"];
                         if (dosError != null && dosError != "1")
                         {
                             return;
@@ -69,7 +70,7 @@ namespace Harbour.Utils
                     var fileName = filePrefixName + DateTime.Now.ToString("yyyyMMdd") + logtype.ToString() + ".txt";
                     if (string.IsNullOrWhiteSpace(path))
                     {
-                        var dosPath = ConfigurationManager.AppSettings["Dos.LogHelper.Path"];
+                        var dosPath = ConfigurationManager.AppSettings["Har.LogHelper.Path"];
                         if (string.IsNullOrWhiteSpace(dosPath))
                         {
                             path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs\\" + fileName;
