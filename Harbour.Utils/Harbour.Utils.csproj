@@ -67,6 +67,7 @@
     <Compile Include="HttpUtils\HttpUtils.cs" />
     <Compile Include="HttpUtils\JsonResponse.cs" />
     <Compile Include="IOHelper\FileHelper.cs" />
+    <Compile Include="IOHelper\IOHelper.cs" />
     <Compile Include="LogHelpers\LogHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomHelper\RandomHelper.cs" />
