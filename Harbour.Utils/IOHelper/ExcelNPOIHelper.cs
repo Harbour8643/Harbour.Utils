@@ -690,46 +690,5 @@ namespace Harbour.Utils
         
         #endregion
 
-        #region  导出数据
-
-        private static void DownLoad(String fileName)
-        {
-            try
-            {
-                //FileName--要下载的文件名 
-                FileInfo DownloadFile = new FileInfo(System.Web.HttpContext.Current.Server.MapPath("~/temp/" + fileName));
-                if (DownloadFile.Exists)
-                {
-                    //System.Web.HttpContext.Current.Response.Clear();
-                    //System.Web.HttpContext.Current.Response.ClearHeaders();
-                    //System.Web.HttpContext.Current.Response.Buffer = false;
-                    //System.Web.HttpContext.Current.Response.ContentType = "application/octet-stream";
-                    //System.Web.HttpContext.Current.Response.AppendHeader("Content-Disposition", "attachment;filename=" + fileName);
-                    //System.Web.HttpContext.Current.Response.AppendHeader("Content-Length", DownloadFile.Length.ToString());
-                    //System.Web.HttpContext.Current.Response.WriteFile(DownloadFile.FullName);
-                    //System.Web.HttpContext.Current.Response.Flush();
-                    //System.Web.HttpContext.Current.Response.End();
-
-                    System.Web.HttpContext.Current.Response.ContentType = "application/octet-stream";
-                    System.Web.HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
-                    System.Web.HttpContext.Current.Response.Clear();
-                    System.Web.HttpContext.Current.Response.WriteFile(DownloadFile.FullName);
-                    System.Web.HttpContext.Current.Response.End();
-                }
-                else
-                {
-                    //文件不存在
-
-                }
-            }
-            catch (Exception e)
-            {
-                //打开时异常了
-                // Alert.Show(e.ToString());
-            }
-        }
-
-        #endregion
-
     }
 }

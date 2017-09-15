@@ -31,22 +31,6 @@
     <DocumentationFile>bin\Release\Harbour.Utils.Extension.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NPOI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\NPOI\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\NPOI\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\NPOI\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\NPOI\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -61,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IOHelper\CsvHelper.cs" />
-    <Compile Include="IOHelper\ExcelNPOIHelper.cs" />
     <Compile Include="IOHelper\IOHelper.cs" />
     <Compile Include="IOHelper\XMLHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,15 +55,7 @@
     <Compile Include="条形码\BarCodeToHTML.cs" />
     <Compile Include="汉字拼音\EcanConvertToCh.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Lib\NPOI\NPOI.dll" />
-    <Content Include="Lib\NPOI\NPOI.OOXML.dll" />
-    <Content Include="Lib\NPOI\NPOI.OOXML.XML" />
-    <Content Include="Lib\NPOI\NPOI.OpenXml4Net.dll" />
-    <Content Include="Lib\NPOI\NPOI.OpenXml4Net.XML" />
-    <Content Include="Lib\NPOI\NPOI.OpenXmlFormats.dll" />
-    <Content Include="Lib\NPOI\NPOI.XML" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
