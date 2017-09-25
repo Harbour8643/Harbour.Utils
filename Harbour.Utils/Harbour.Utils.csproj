@@ -7,8 +7,8 @@
     <ProjectGuid>{5F58A6B8-2EA0-4C93-BE4A-83305F1C1252}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Harbour.Utilities</RootNamespace>
-    <AssemblyName>Harbour.Utilities</AssemblyName>
+    <RootNamespace>Harbour.Utils</RootNamespace>
+    <AssemblyName>Harbour.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Harbour.Utilities.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Harbour.Utils.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
@@ -95,6 +95,8 @@
     <Compile Include="YZMHelper\YZMHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="NuGet\Harbour.bat" />
+    <None Include="NuGet\Harbour.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

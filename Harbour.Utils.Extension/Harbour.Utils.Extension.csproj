@@ -55,7 +55,10 @@
     <Compile Include="条形码\BarCodeToHTML.cs" />
     <Compile Include="汉字拼音\EcanConvertToCh.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="NuGet\Harbour.bat" />
+    <None Include="NuGet\Harbour.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

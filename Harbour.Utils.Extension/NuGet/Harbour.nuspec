@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Harbour.Utils.Extension</id>
+    <version>1.0.0</version>
+    <title>Harbour.Utils.Extension</title>
+    <authors>Harbour</authors>
+    <owners>harbour</owners>
+    <licenseUrl>https://github.com/Harbour9354/Harbour.Utils/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Harbour9354/Harbour.Utils</projectUrl>
+    <iconUrl>https://github.com/Harbour9354/Harbour.Utils/blob/master/icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+    Harbour.Utils library.
+
+    Requires:
+      - .NET Framework(>=4.0)
+    </description>
+    <copyright>Copyright 2016-2017</copyright>
+    <tags>Harbour Utils</tags>
+   
+  </metadata>
+
+  <files>
+    <file src="..\bin\Release\Harbour.Utils.Extension.dll" target="lib\net40" />
+	<file src="..\bin\Release\Harbour.Utils.Extension.XML" target="lib\net40" />
+  </files>
+</package>
