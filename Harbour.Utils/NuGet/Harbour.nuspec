@@ -8,21 +8,21 @@
     <owners>harbour</owners>
     <licenseUrl>https://github.com/Harbour9354/Harbour.Utils/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Harbour9354/Harbour.Utils</projectUrl>
-    <iconUrl>https://github.com/Harbour9354/Harbour.Utils/blob/master/icon.png</iconUrl>
+    <iconUrl>https://avatars1.githubusercontent.com/u/16264878?v=4</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-Harbour.Utils library.
+      Harbour.Utils library.
 
-Requires:
-- .NET Framework(>=4.0)
+      Requires:
+      - .NET Framework(>=4.0)
     </description>
     <copyright>Copyright 2016-2017</copyright>
-    <tags>Utils</tags>
-   
+    <tags>Harbour Utils</tags>
+
   </metadata>
 
   <files>
     <file src="..\bin\Release\Harbour.Utils.dll" target="lib\net40" />
-	<file src="..\bin\Release\Harbour.Utils.XML" target="lib\net40" />
+    <file src="..\bin\Release\Harbour.Utils.XML" target="lib\net40" />
   </files>
 </package>
