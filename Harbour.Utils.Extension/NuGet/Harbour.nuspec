@@ -11,18 +11,18 @@
     <iconUrl>https://github.com/Harbour9354/Harbour.Utils/blob/master/icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-    Harbour.Utils library.
+      Harbour.Utils.Extension library.
 
-    Requires:
+      Requires:
       - .NET Framework(>=4.0)
     </description>
     <copyright>Copyright 2016-2017</copyright>
-    <tags>Harbour Utils</tags>
-   
+    <tags>Harbour Utils Extension</tags>
+
   </metadata>
 
   <files>
     <file src="..\bin\Release\Harbour.Utils.Extension.dll" target="lib\net40" />
-	<file src="..\bin\Release\Harbour.Utils.Extension.XML" target="lib\net40" />
+    <file src="..\bin\Release\Harbour.Utils.Extension.XML" target="lib\net40" />
   </files>
 </package>
