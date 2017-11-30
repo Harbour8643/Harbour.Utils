@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using System.Web.Configuration;
 
 namespace Harbour.Utils
 {
@@ -8,126 +9,67 @@ namespace Harbour.Utils
 	/// </summary>
 	public sealed class ConfigHelper
 	{
-		/// <summary>
-		/// 得到AppSettings中的配置字符串信息
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		public static string GetConfigString(string key)
-		{
-            string CacheKey = "AppSettings-" + key;
-            object objModel = CacheHelper.GetCache(CacheKey);
-            if (objModel == null)
-            {
-                try
-                {
-                    objModel = ConfigurationManager.AppSettings[key]; 
-                    if (objModel != null)
-                    {
-                        CacheHelper.SetCache(CacheKey, objModel, DateTime.Now.AddMinutes(180));
-                    }
-                }
-                catch
-                { }
-            }
-            return objModel.ToString();
-		}
-		/// <summary>
-		/// 得到AppSettings中的配置Bool信息
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		public static bool GetConfigBool(string key)
-		{
-			bool result = false;
-			string cfgVal = GetConfigString(key);
-			if(null != cfgVal && string.Empty != cfgVal)
-			{
-				try
-				{
-					result = bool.Parse(cfgVal);
-				}
-				catch(FormatException)
-				{
-					// Ignore format exceptions.
-				}
-			}
-			return result;
-		}
-		/// <summary>
-		/// 得到AppSettings中的配置Decimal信息
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		public static decimal GetConfigDecimal(string key)
-		{
-			decimal result = 0;
-			string cfgVal = GetConfigString(key);
-			if(null != cfgVal && string.Empty != cfgVal)
-			{
-				try
-				{
-					result = decimal.Parse(cfgVal);
-				}
-				catch(FormatException)
-				{
-					// Ignore format exceptions.
-				}
-			}
-
-			return result;
-		}
-		/// <summary>
-		/// 得到AppSettings中的配置int信息
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		public static int GetConfigInt(string key)
-		{
-			int result = 0;
-			string cfgVal = GetConfigString(key);
-			if(null != cfgVal && string.Empty != cfgVal)
-			{
-				try
-				{
-					result = int.Parse(cfgVal);
-				}
-				catch(FormatException)
-				{
-					// Ignore format exceptions.
-				}
-			}
-
-			return result;
-		}
+        /// <summary>
+        /// 获得Web.config ConnectionString 里的配置信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string GetConnectionString(string key)
+        {
+            return ConfigurationManager.ConnectionStrings[key].ToString();
+        }
 
 
         /// <summary>
-        /// GetAppSetting
+        /// 将配置信息转化为字符串
         /// </summary>
-        /// <param name="name">名</param>
-        /// <returns></returns>
-        public static string GetAppSetting(string name)
+        /// <param name="key">AppSettings中的key</param>
+        /// <param name="defaultValue">默认返回值</param>
+        /// <returns>找到与key相应的值，则返回该值，否则返回默认值</returns>
+        public static string GetAppString(string key, string defaultValue = null)
         {
-            string connstr = "";
-            try
+            string keyValue = ConfigurationManager.AppSettings[key];
+            if (!string.IsNullOrEmpty(keyValue))
             {
-                Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-                if (config.AppSettings.Settings[name] == null)
-                {
-                    return "";
-                }
-                else
-                {
-                    connstr = config.AppSettings.Settings[name].Value;
-                }
-                return connstr;
+                return keyValue;
             }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+            return defaultValue;
         }
+
+        /// <summary>
+        /// 将配置信息转化为整型
+        /// </summary>
+        /// <param name="key">AppSettings中的key</param>
+        /// <param name="defaultValue">默认返回值</param
+        /// <returns>找到与key相应的值，则返回该值，否则返回默认值</returns>
+        public static int GetAppInt(string key, int defaultValue = 0)
+        {
+            string keyValue = ConfigurationManager.AppSettings[key];
+            int tempValue;
+            if (int.TryParse(keyValue, out tempValue))
+            {
+                return tempValue;
+            }
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 将配置信息转化为布尔型
+        /// </summary>
+        /// <param name="key">AppSettings中的key</param>
+        /// <param name="defaultValue">默认返回值</param
+        /// <returns>找到与key相应的值，则返回该值，否则返回默认值</returns>
+        public static bool GetAppBool(string key, bool defaultValue = false)
+        {
+            string keyValue = ConfigurationManager.AppSettings[key];
+            bool tempValue;
+            if (bool.TryParse(keyValue, out tempValue))
+            {
+                return tempValue;
+            }
+            return defaultValue;
+        }
+
         /// <summary>
         /// 设置AppSettings
         /// </summary>
@@ -138,7 +80,7 @@ namespace Harbour.Utils
         {
             try
             {
-                Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+                Configuration config = ConfigurationManager.OpenExeConfiguration("~");
                 if (config.AppSettings.Settings[name] != null)
                 {
                     config.AppSettings.Settings.Remove(name);
