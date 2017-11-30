@@ -70,7 +70,11 @@
   <ItemGroup>
     <Compile Include="ConfigHelper\ConfigHelper.cs" />
     <Compile Include="Cookie&amp;Session&amp;Cache\CacheHelper.cs" />
+    <Compile Include="Cookie&amp;Session&amp;Cache\CacheManager.cs" />
     <Compile Include="Cookie&amp;Session&amp;Cache\CookieHelper.cs" />
+    <Compile Include="Cookie&amp;Session&amp;Cache\CookiesManager.cs" />
+    <Compile Include="Cookie&amp;Session&amp;Cache\IHttpStorageObject.cs" />
+    <Compile Include="Cookie&amp;Session&amp;Cache\SessionHelper.cs" />
     <Compile Include="DEncrypt\AESEncrypt.cs" />
     <Compile Include="DEncrypt\DESEncrypt.cs" />
     <Compile Include="DEncrypt\HashEncode.cs" />
