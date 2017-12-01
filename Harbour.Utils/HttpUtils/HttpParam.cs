@@ -21,7 +21,7 @@ namespace Harbour.Utils
         /// <summary>
         /// 参数类型。可选：Json、Form。默认Json。传入Form则会将new { Key1 = Value1, Key2 = Value2}转换成"key1=value1＆key2=value2"形式。
         /// </summary>
-        public EnumHelper.HttpParamType ParamType { get; set; }
+        public HttpParamType ParamType { get; set; }
         /// <summary>
         /// Post参数。
         /// <para>可以传入Json对像：new { Key1 = Value1, Key2 = Value2}</para>
@@ -93,5 +93,20 @@ namespace Harbour.Utils
         /// 
         /// </summary>
         public HttpPostedFileBase PostedFile { get; set; }
+    }
+
+    /// <summary>
+    /// HttpParamType
+    /// </summary>
+    public enum HttpParamType
+    {
+        /// <summary>
+        /// json数据。默认值。
+        /// </summary>
+        Json,
+        /// <summary>
+        /// 形如：key=value＆key=value＆key=value
+        /// </summary>
+        Form
     }
 }

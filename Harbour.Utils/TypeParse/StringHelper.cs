@@ -311,7 +311,7 @@ namespace Harbour.Utils
         /// <returns>字符串</returns>
         public static string StringTrimAll(string text)
         {
-            string _text = TypeHelper.ObjectToString(text);
+            string _text = text.TryToString();
             string returnText = String.Empty;
             char[] chars = _text.ToCharArray();
             for (int i = 0; i < chars.Length; i++)
@@ -329,7 +329,7 @@ namespace Harbour.Utils
         /// <returns>String</returns>
         public static string NumricTrimAll(string numricString)
         {
-            string text = TypeHelper.ObjectToString(numricString).Trim();
+            string text = numricString.TryToString().Trim();
             string returnText = String.Empty;
             char[] chars = text.ToCharArray();
             for (int i = 0; i < chars.Length; i++)

@@ -255,7 +255,7 @@ namespace Harbour.Utils
         {
             try
             {
-                long.Parse(TypeHelper.ObjectToString(obj));
+                long.Parse(obj.TryToString());
                 return true;
             }
             catch
@@ -271,7 +271,7 @@ namespace Harbour.Utils
         {
             try
             {
-                float.Parse(TypeHelper.ObjectToString(obj));
+                float.Parse(obj.TryToString());
                 return true;
             }
             catch
@@ -287,7 +287,7 @@ namespace Harbour.Utils
         {
             try
             {
-                double.Parse(TypeHelper.ObjectToString(obj));
+                double.Parse(obj.TryToString());
                 return true;
             }
             catch
@@ -303,7 +303,7 @@ namespace Harbour.Utils
         {
             try
             {
-                decimal.Parse(TypeHelper.ObjectToString(obj));
+                decimal.Parse(obj.TryToString());
                 return true;
             }
             catch
@@ -438,143 +438,6 @@ namespace Harbour.Utils
         {
             string[] targetIPList = StringHelper.SplitString(targetIPStr, "\n");
             return InIPList(sourceIP, targetIPList);
-        }
-
-        #endregion
-
-        #region 判断当前时间是否在指定的时间段内
-
-        /// <summary>
-        /// 判断当前时间是否在指定的时间段内
-        /// </summary>
-        /// <param name="periodList">指定时间段</param>
-        /// <param name="liePeriod">所处时间段</param>
-        /// <returns></returns>
-        public static bool BetweenPeriod(string[] periodList, out string liePeriod)
-        {
-            if (periodList != null && periodList.Length > 0)
-            {
-                DateTime startTime;
-                DateTime endTime;
-                DateTime nowTime = DateTime.Now;
-                DateTime nowDate = nowTime.Date;
-
-                foreach (string period in periodList)
-                {
-                    int index = period.IndexOf("-");
-                    startTime = TypeHelper.StringToDateTime(period.Substring(0, index));
-                    endTime = TypeHelper.StringToDateTime(period.Substring(index + 1));
-
-                    if (startTime < endTime)
-                    {
-                        if (nowTime > startTime && nowTime < endTime)
-                        {
-                            liePeriod = period;
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if ((nowTime > startTime && nowTime < nowDate.AddDays(1)) || (nowTime < endTime))
-                        {
-                            liePeriod = period;
-                            return true;
-                        }
-                    }
-                }
-            }
-            liePeriod = string.Empty;
-            return false;
-        }
-
-        /// <summary>
-        /// 判断当前时间是否在指定的时间段内
-        /// </summary>
-        /// <param name="periodStr">指定时间段</param>
-        /// <param name="liePeriod">所处时间段</param>
-        /// <returns></returns>
-        public static bool BetweenPeriod(string periodStr, out string liePeriod)
-        {
-            string[] periodList = StringHelper.SplitString(periodStr, "\n");
-            return BetweenPeriod(periodList, out liePeriod);
-        }
-
-        /// <summary>
-        /// 判断当前时间是否在指定的时间段内
-        /// </summary>
-        /// <param name="periodList">指定时间段</param>
-        /// <returns></returns>
-        public static bool BetweenPeriod(string periodList)
-        {
-            string liePeriod = string.Empty;
-            return BetweenPeriod(periodList, out liePeriod);
-        }
-
-        #endregion
-
-        #region 判断对象是否为空
-
-        /// <summary>
-        /// 判断对象是否为空，为空返回true,("")为true
-        /// </summary>
-        /// <typeparam name="T">要验证的对象的类型</typeparam>
-        /// <param name="data">要验证的对象</param>        
-        public static bool IsNullOrEmpty<T>(T data)
-        {
-            //如果为null
-            if (data == null)
-            {
-                return true;
-            }
-
-            //如果为""
-            if (data.GetType() == typeof(String))
-            {
-                if (string.IsNullOrEmpty(data.ToString().Trim()))
-                {
-                    return true;
-                }
-            }
-
-            //如果为DBNull
-            if (data.GetType() == typeof(DBNull))
-            {
-                return true;
-            }
-
-            //不为空
-            return false;
-        }
-
-        /// <summary>
-        /// 判断对象是否为空，为空返回true
-        /// </summary>
-        /// <param name="data">要验证的对象</param>
-        public static bool IsNullOrEmpty(object data)
-        {
-            //如果为null
-            if (data == null)
-            {
-                return true;
-            }
-
-            //如果为""
-            if (data.GetType() == typeof(String))
-            {
-                if (string.IsNullOrEmpty(data.ToString().Trim()))
-                {
-                    return true;
-                }
-            }
-
-            //如果为DBNull
-            if (data.GetType() == typeof(DBNull))
-            {
-                return true;
-            }
-
-            //不为空
-            return false;
         }
 
         #endregion

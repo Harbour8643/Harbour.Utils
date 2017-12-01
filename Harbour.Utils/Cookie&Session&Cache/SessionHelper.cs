@@ -4,17 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace SyntacticSugar
+namespace Harbour.Utils
 {
-    /// <summary>
-    /// ** 描述：session操作类
-    /// ** 创始时间：2015-6-9
-    /// ** 修改时间：-
-    /// ** 作者：sunkaixuan
-    /// ** 使用说明：http://www.cnblogs.com/sunkaixuan/p/4564612.html
-    /// </summary>
-    /// <typeparam name="K">键</typeparam>
-    /// <typeparam name="V">值</typeparam>
+    
     public class SessionManager<V> : IHttpStorageObject<V>
     {
         private static readonly object _instancelock = new object();

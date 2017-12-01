@@ -18,17 +18,17 @@ namespace Harbour.Utils
     /// </summary>
     public class HttpHelper
     {
+        #region 私有静态属性
         //浏览器列表
         private static string[] _browserlist = new string[] { "ie", "chrome", "mozilla", "netscape", "firefox", "opera", "konqueror" };
         //搜索引擎列表
         private static string[] _searchenginelist = new string[] { "baidu", "google", "360", "sogou", "bing", "msn", "sohu", "soso", "sina", "163", "yahoo", "jikeu" };
         //meta正则表达式
         private static Regex _metaregex = new Regex("<meta([^<]*)charset=([^<]*)[\"']", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        #endregion
 
-
-        #region 编码
+        #region HTML和URL编码
         //为了解决带html标签的文本在IIS上被拦截不通过的问题。
-
         /// <summary>
         /// HTML解码
         /// </summary>
@@ -37,7 +37,6 @@ namespace Harbour.Utils
         {
             return HttpUtility.HtmlDecode(s);
         }
-
         /// <summary>
         /// HTML编码
         /// </summary>
@@ -48,7 +47,6 @@ namespace Harbour.Utils
         }
 
         //为了解决url传输的问题，eg：url中空格，
-
         /// <summary>
         /// URL解码
         /// </summary>
@@ -57,7 +55,6 @@ namespace Harbour.Utils
         {
             return HttpUtility.UrlDecode(s);
         }
-
         /// <summary>
         /// URL编码
         /// </summary>
@@ -66,11 +63,9 @@ namespace Harbour.Utils
         {
             return HttpUtility.UrlEncode(s);
         }
-
         #endregion
 
-        #region 客户端信息
-
+        #region 请求判断
         /// <summary>
         /// 是否是get请求
         /// </summary>
@@ -79,7 +74,6 @@ namespace Harbour.Utils
         {
             return HttpContext.Current.Request.HttpMethod == "GET";
         }
-
         /// <summary>
         /// 是否是post请求
         /// </summary>
@@ -88,7 +82,6 @@ namespace Harbour.Utils
         {
             return HttpContext.Current.Request.HttpMethod == "POST";
         }
-
         /// <summary>
         /// 是否是Ajax请求
         /// </summary>
@@ -97,6 +90,67 @@ namespace Harbour.Utils
         {
             return HttpContext.Current.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
+        /// <summary>
+        /// 判断是否是浏览器请求
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsBrowser()
+        {
+            string name = GetBrowserName();
+            foreach (string item in _browserlist)
+            {
+                if (name.Contains(item))
+                    return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 是否是移动设备请求
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsMobile()
+        {
+            if (HttpContext.Current.Request.Browser.IsMobileDevice)
+                return true;
+
+            bool isTablet = false;
+            if (bool.TryParse(HttpContext.Current.Request.Browser["IsTablet"], out isTablet) && isTablet)
+                return true;
+            string strUserAgent = HttpContext.Current.Request.UserAgent.ToString().ToLower();
+            if (strUserAgent != null)
+            {
+                if (strUserAgent.Contains("iphone") || strUserAgent.Contains("blackberry") || strUserAgent.Contains("mobile") ||
+                    strUserAgent.Contains("windows ce") || strUserAgent.Contains("opera mini") || strUserAgent.Contains("palm"))
+                {
+                    return true;
+                }
+            }
+            return false;////手机调试的时候将其改为  true
+        }
+        /// <summary>
+        /// 判断是否是搜索引擎爬虫请求
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsCrawler()
+        {
+            bool result = HttpContext.Current.Request.Browser.Crawler;
+            if (!result)
+            {
+                string referrer = GetUrlReferrer();
+                if (referrer.Length > 0)
+                {
+                    foreach (string item in _searchenginelist)
+                    {
+                        if (referrer.Contains(item))
+                            return true;
+                    }
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        #region 获取请求参数
 
         /// <summary>
         ///Url传参 获得查询字符串中的值
@@ -104,7 +158,7 @@ namespace Harbour.Utils
         /// <param name="key">键</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static string GetQueryString(string key, string defaultValue)
+        public static string GetQueryString(string key, string defaultValue = null)
         {
             string value = HttpContext.Current.Request.QueryString[key];
             if (!string.IsNullOrWhiteSpace(value))
@@ -112,36 +166,15 @@ namespace Harbour.Utils
             else
                 return defaultValue;
         }
-
-        /// <summary>
-        /// Url传参Url传参 获得查询字符串中的值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        public static string GetQueryString(string key)
-        {
-            return GetQueryString(key, null);
-        }
-
         /// <summary>
         /// Url传参 获得查询字符串中的值
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static int GetQueryInt(string key, int defaultValue)
+        public static int GetQueryInt(string key, int defaultValue = 0)
         {
-            return TypeHelper.StringToInt(HttpContext.Current.Request.QueryString[key], defaultValue);
-        }
-
-        /// <summary>
-        /// Url传参 获得查询字符串中的值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        public static int GetQueryInt(string key)
-        {
-            return GetQueryInt(key, 0);
+            return GetQueryString(key).TryToInt(defaultValue);
         }
 
         /// <summary>
@@ -150,7 +183,7 @@ namespace Harbour.Utils
         /// <param name="key">键</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static string GetFormString(string key, string defaultValue)
+        public static string GetFormString(string key, string defaultValue = null)
         {
             string value = HttpContext.Current.Request.Form[key];
             if (!string.IsNullOrWhiteSpace(value))
@@ -158,36 +191,15 @@ namespace Harbour.Utils
             else
                 return defaultValue;
         }
-
-        /// <summary>
-        /// Post表单 获得表单中的值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        public static string GetFormString(string key)
-        {
-            return GetFormString(key, null);
-        }
-
         /// <summary>
         /// Post表单 获得表单中的值
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static int GetFormInt(string key, int defaultValue)
+        public static int GetFormInt(string key, int defaultValue = 0)
         {
-            return TypeHelper.StringToInt(HttpContext.Current.Request.Form[key], defaultValue);
-        }
-
-        /// <summary>
-        /// Post表单 获得表单中的值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        public static int GetFormInt(string key)
-        {
-            return GetFormInt(key, 0);
+            return GetFormInt(key).TryToInt(defaultValue);
         }
 
         /// <summary>
@@ -196,52 +208,40 @@ namespace Harbour.Utils
         /// <param name="key">键</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static string GetRequestString(string key, string defaultValue)
+        public static string GetRequestString(string key, string defaultValue = null)
         {
-            if (HttpContext.Current.Request.Form[key] != null)
-                return GetFormString(key, defaultValue);
+            string value = HttpContext.Current.Request[key];
+            if (!string.IsNullOrWhiteSpace(value))
+                return value;
             else
-                return GetQueryString(key, defaultValue);
+                return defaultValue;
+            //if (HttpContext.Current.Request.Form[key] != null)
+            //    return GetFormString(key, defaultValue);
+            //else
+            //    return GetQueryString(key, defaultValue);
         }
-
-        /// <summary>
-        /// 获得请求中的值(Post请求数据优先，Get优先级低)
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        public static string GetRequestString(string key)
-        {
-            if (HttpContext.Current.Request.Form[key] != null)
-                return GetFormString(key);
-            else
-                return GetQueryString(key);
-        }
-
         /// <summary>
         /// 获得请求中的值(Post请求数据优先，Get优先级低)
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static int GetRequestInt(string key, int defaultValue)
+        public static int GetRequestInt(string key, int defaultValue = 0)
         {
-            if (HttpContext.Current.Request.Form[key] != null)
-                return GetFormInt(key, defaultValue);
-            else
-                return GetQueryInt(key, defaultValue);
+            return GetRequestInt(key).TryToInt(defaultValue);
         }
 
+        #endregion
+
+        #region 客户端信息
+
         /// <summary>
-        /// 获得请求中的值(Post请求数据优先，Get优先级低)
+        /// 获得请求的主机部分
         /// </summary>
-        /// <param name="key">键</param>
         /// <returns></returns>
-        public static int GetRequestInt(string key)
+        public static string GetHost()
         {
-            if (HttpContext.Current.Request.Form[key] != null)
-                return GetFormInt(key);
-            else
-                return GetQueryInt(key);
+            return HttpContext.Current.Request.Url.Host;
         }
 
         /// <summary>
@@ -256,16 +256,6 @@ namespace Harbour.Utils
 
             return uri.ToString();
         }
-
-        /// <summary>
-        /// 获得请求的主机部分
-        /// </summary>
-        /// <returns></returns>
-        public static string GetHost()
-        {
-            return HttpContext.Current.Request.Url.Host;
-        }
-
         /// <summary>
         /// 获得请求的url
         /// </summary>
@@ -274,7 +264,6 @@ namespace Harbour.Utils
         {
             return HttpContext.Current.Request.Url.ToString();
         }
-
         /// <summary>
         /// 获得请求的原始url
         /// </summary>
@@ -300,6 +289,20 @@ namespace Harbour.Utils
                 ip = "127.0.0.1";
             return ip;
         }
+        /// <summary>
+        /// 域名
+        /// </summary>
+        public static string Domain
+        {
+            get
+            {
+                if (((HttpContext.Current.Request.ServerVariables["SERVER_PORT"] == null) || (HttpContext.Current.Request.ServerVariables["SERVER_PORT"] == "")) || (HttpContext.Current.Request.ServerVariables["SERVER_PORT"] == "80"))
+                {
+                    return HttpContext.Current.Request.ServerVariables["SERVER_NAME"];
+                }
+                return (HttpContext.Current.Request.ServerVariables["SERVER_NAME"] + ":" + HttpContext.Current.Request.ServerVariables["SERVER_PORT"]);
+            }
+        }
 
         /// <summary>
         /// 获得请求的浏览器类型
@@ -313,7 +316,6 @@ namespace Harbour.Utils
 
             return type.ToLower();
         }
-
         /// <summary>
         /// 获得请求的浏览器名称
         /// </summary>
@@ -326,7 +328,6 @@ namespace Harbour.Utils
 
             return name.ToLower();
         }
-
         /// <summary>
         /// 获得请求的浏览器版本
         /// </summary>
@@ -386,7 +387,6 @@ namespace Harbour.Utils
 
             return type;
         }
-
         /// <summary>
         /// 获得请求客户端的操作系统名称
         /// </summary>
@@ -400,263 +400,59 @@ namespace Harbour.Utils
             return name;
         }
 
-        /// <summary>
-        /// 判断是否是浏览器请求
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsBrowser()
-        {
-            string name = GetBrowserName();
-            foreach (string item in _browserlist)
-            {
-                if (name.Contains(item))
-                    return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 是否是移动设备请求
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsMobile()
-        {
-            if (HttpContext.Current.Request.Browser.IsMobileDevice)
-                return true;
-
-            bool isTablet = false;
-            if (bool.TryParse(HttpContext.Current.Request.Browser["IsTablet"], out isTablet) && isTablet)
-                return true;
-            string strUserAgent = HttpContext.Current.Request.UserAgent.ToString().ToLower();
-            if (strUserAgent != null)
-            {
-                if (strUserAgent.Contains("iphone") ||strUserAgent.Contains("blackberry") || strUserAgent.Contains("mobile") ||
-                    strUserAgent.Contains("windows ce") || strUserAgent.Contains("opera mini") ||strUserAgent.Contains("palm"))
-                {
-                    return true;
-                }
-            }
-            return false;////手机调试的时候将其改为  true
-        }
-
-        /// <summary>
-        /// 判断是否是搜索引擎爬虫请求
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsCrawler()
-        {
-            bool result = HttpContext.Current.Request.Browser.Crawler;
-            if (!result)
-            {
-                string referrer = GetUrlReferrer();
-                if (referrer.Length > 0)
-                {
-                    foreach (string item in _searchenginelist)
-                    {
-                        if (referrer.Contains(item))
-                            return true;
-                    }
-                }
-            }
-            return result;
-        }
-
         #endregion
 
-        #region Http
-
+        #region 网页中显示内容
         /// <summary>
-        /// 获得参数列表
+        /// 网页中显示内容PDF
         /// </summary>
-        /// <param name="data">数据</param>
-        /// <returns></returns>
-        public static NameValueCollection GetParmList(string data)
+        /// <param name="filePath">文件绝对路径</param>
+        public static void ShowPDF(string filePath)
         {
-            NameValueCollection parmList = new NameValueCollection(StringComparer.OrdinalIgnoreCase);
-            if (!string.IsNullOrEmpty(data))
-            {
-                int length = data.Length;
-                for (int i = 0; i < length; i++)
-                {
-                    int startIndex = i;
-                    int endIndex = -1;
-                    while (i < length)
-                    {
-                        char c = data[i];
-                        if (c == '=')
-                        {
-                            if (endIndex < 0)
-                                endIndex = i;
-                        }
-                        else if (c == '&')
-                        {
-                            break;
-                        }
-                        i++;
-                    }
-                    string key;
-                    string value;
-                    if (endIndex >= 0)
-                    {
-                        key = data.Substring(startIndex, endIndex - startIndex);
-                        value = data.Substring(endIndex + 1, (i - endIndex) - 1);
-                    }
-                    else
-                    {
-                        key = data.Substring(startIndex, i - startIndex);
-                        value = string.Empty;
-                    }
-                    parmList[key] = value;
-                    if ((i == (length - 1)) && (data[i] == '&'))
-                        parmList[key] = string.Empty;
-                }
-            }
-            return parmList;
+            HttpContext.Current.Response.ContentType = "Application/pdf";
+            HttpContext.Current.Response.WriteFile(filePath);
+            HttpContext.Current.Response.End();
         }
 
         /// <summary>
-        /// 获得Http用以请求数据，默认post请求方式
+        /// 网页中显示内容Word
         /// </summary>
-        /// <param name="url">请求地址</param>
-        /// <param name="postData">发送数据</param>
-        /// <returns></returns>
-        public static string GetRequestData(string url, string postData)
+        /// <param name="filePath">文件绝对路径</param>
+        public static void ShowWord(string filePath)
         {
-            return GetRequestData(url, "post", postData);
+            HttpContext.Current.Response.ContentType = "Application/msword";
+            HttpContext.Current.Response.WriteFile(filePath);
+            HttpContext.Current.Response.End();
         }
-
         /// <summary>
-        /// 获得Http用以请求数据
+        /// 网页中显示内容Excel
         /// </summary>
-        /// <param name="url">请求地址</param>
-        /// <param name="method">请求方式</param>
-        /// <param name="postData">发送数据</param>
-        /// <returns></returns>
-        public static string GetRequestData(string url, string method, string postData)
+        /// <param name="filePath">文件绝对路径</param>
+        public static void ShowExcel(string filePath)
         {
-            return GetRequestData(url, method, postData, Encoding.UTF8);
+            HttpContext.Current.Response.ContentType = "Application/x-msexcel";
+            HttpContext.Current.Response.WriteFile(filePath);
+            HttpContext.Current.Response.End();
         }
-
         /// <summary>
-        /// 获得Http用以请求数据
+        /// 网页中显示内容HTML
         /// </summary>
-        /// <param name="url">请求地址</param>
-        /// <param name="method">请求方式</param>
-        /// <param name="postData">发送数据</param>
-        /// <param name="encoding">编码</param>
-        /// <returns></returns>
-        public static string GetRequestData(string url, string method, string postData, Encoding encoding)
+        /// <param name="filePath">文件绝对路径</param>
+        public static void ShowHtml(string filePath)
         {
-            return GetRequestData(url, method, postData, encoding, 20000);
+            HttpContext.Current.Response.ContentType = "text/HTML";
+            HttpContext.Current.Response.WriteFile(filePath);
+            HttpContext.Current.Response.End();
         }
-
         /// <summary>
-        /// 获得Http用以请求数据
+        /// 网页中显示内容
         /// </summary>
-        /// <param name="url">请求地址</param>
-        /// <param name="method">请求方式</param>
-        /// <param name="postData">发送数据</param>
-        /// <param name="encoding">编码</param>
-        /// <param name="timeout">超时值</param>
-        /// <returns></returns>
-        public static string GetRequestData(string url, string method, string postData, Encoding encoding, int timeout)
+        /// <param name="filePath">文件绝对路径</param>
+        public static void Show(string filePath)
         {
-            if (!(url.Contains("http://") || url.Contains("https://")))
-                url = "http://" + url;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = method.Trim().ToLower();
-            request.Timeout = timeout;
-            request.AllowAutoRedirect = true;
-            request.ContentType = "text/html";
-            request.Accept = "text/html, application/xhtml+xml, */*,zh-CN";
-            request.UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)";
-            request.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
-
-            try
-            {
-                if (!string.IsNullOrEmpty(postData) && request.Method == "post")
-                {
-                    byte[] buffer = encoding.GetBytes(postData);
-                    request.ContentLength = buffer.Length;
-                    request.GetRequestStream().Write(buffer, 0, buffer.Length);
-                }
-
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    if (encoding == null)
-                    {
-                        MemoryStream stream = new MemoryStream();
-                        if (response.ContentEncoding != null && response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
-                            new GZipStream(response.GetResponseStream(), CompressionMode.Decompress).CopyTo(stream, 10240);
-                        else
-                            response.GetResponseStream().CopyTo(stream, 10240);
-
-                        byte[] RawResponse = stream.ToArray();
-                        string temp = Encoding.Default.GetString(RawResponse, 0, RawResponse.Length);
-                        Match meta = _metaregex.Match(temp);
-                        string charter = (meta.Groups.Count > 2) ? meta.Groups[2].Value : string.Empty;
-                        charter = charter.Replace("\"", string.Empty).Replace("'", string.Empty).Replace(";", string.Empty);
-                        if (charter.Length > 0)
-                        {
-                            charter = charter.ToLower().Replace("iso-8859-1", "gbk");
-                            encoding = Encoding.GetEncoding(charter);
-                        }
-                        else
-                        {
-                            if (response.CharacterSet.ToLower().Trim() == "iso-8859-1")
-                            {
-                                encoding = Encoding.GetEncoding("gbk");
-                            }
-                            else
-                            {
-                                if (string.IsNullOrEmpty(response.CharacterSet.Trim()))
-                                {
-                                    encoding = Encoding.UTF8;
-                                }
-                                else
-                                {
-                                    encoding = Encoding.GetEncoding(response.CharacterSet);
-                                }
-                            }
-                        }
-                        return encoding.GetString(RawResponse);
-                    }
-                    else
-                    {
-                        StreamReader reader = null;
-                        if (response.ContentEncoding != null && response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            using (reader = new StreamReader(new GZipStream(response.GetResponseStream(), CompressionMode.Decompress), encoding))
-                            {
-                                return reader.ReadToEnd();
-                            }
-                        }
-                        else
-                        {
-                            using (reader = new StreamReader(response.GetResponseStream(), encoding))
-                            {
-                                try
-                                {
-                                    return reader.ReadToEnd();
-                                }
-                                catch (Exception ex)
-                                {
-                                    return "close";
-                                }
-
-                            }
-                        }
-                    }
-                }
-
-            }
-            catch (WebException ex)
-            {
-                return "error";
-            }
+            HttpContext.Current.Response.WriteFile(filePath);
+            HttpContext.Current.Response.End();
         }
-
         #endregion
 
     }

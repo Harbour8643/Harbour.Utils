@@ -239,20 +239,104 @@ namespace Harbour.Utils
         }
 
         /// <summary>
-        /// 是否为同一天
+        /// 判段两个时间是否是同一天
         /// </summary>
-        /// <param name="DateTime1">DateTime1</param>
-        /// <param name="DateTime2">DateTime2</param>
+        /// <param name="d1"></param>
+        /// <param name="d2"></param>
         /// <returns></returns>
-        public static bool IsSameDay(DateTime DateTime1, DateTime DateTime2)
+        public static bool IsSameDay(DateTime? d1, DateTime? d2)
         {
-            bool bol = DateTime1.Year == DateTime2.Year && DateTime1.Month == DateTime2.Month && DateTime1.Day == DateTime2.Day;
-            if (bol)
-                return true;
-            else
-                return false;
+            if (d1 == null)
+            {
+                d1 = DateTime.MinValue;
+            }
+            if (d2 == null)
+            {
+                d2 = DateTime.MinValue;
+            }
+            return
+                IsSameDay(Convert.ToDateTime(d1), Convert.ToDateTime(d2));
+        }
+        /// <summary>
+        /// 判段两个时间是否是同一天
+        /// </summary>
+        /// <param name="d1"></param>
+        /// <param name="d2"></param>
+        /// <returns></returns>
+        public static bool IsSameDay(DateTime d1, DateTime d2)
+        {
+            return d1.ToString("yyyy-MM-dd") == d2.ToString("yyyy-MM-dd");
         }
 
+        public static string DateStringFromNow(DateTime dt)
+        {
+            TimeSpan span = DateTime.Now - dt;
+            if (span.TotalDays > 60)
+            {
+                return dt.ToShortDateString();
+            }
+            else
+            {
+                if (span.TotalDays > 30)
+                {
+                    return
+                    "1个月前";
+                }
+                else
+                {
+                    if (span.TotalDays > 14)
+                    {
+                        return
+                        "2周前";
+                    }
+                    else
+                    {
+                        if (span.TotalDays > 7)
+                        {
+                            return
+                            "1周前";
+                        }
+                        else
+                        {
+                            if (span.TotalDays > 1)
+                            {
+                                return
+                                string.Format("{0}天前", (int)Math.Floor(span.TotalDays));
+                            }
+                            else
+                            {
+                                if (span.TotalHours > 1)
+                                {
+                                    return
+                                    string.Format("{0}小时前", (int)Math.Floor(span.TotalHours));
+                                }
+                                else
+                                {
+                                    if (span.TotalMinutes > 1)
+                                    {
+                                        return
+                                        string.Format("{0}分钟前", (int)Math.Floor(span.TotalMinutes));
+                                    }
+                                    else
+                                    {
+                                        if (span.TotalSeconds >= 1)
+                                        {
+                                            return
+                                            string.Format("{0}秒前", (int)Math.Floor(span.TotalSeconds));
+                                        }
+                                        else
+                                        {
+                                            return
+                                            "1秒前";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>

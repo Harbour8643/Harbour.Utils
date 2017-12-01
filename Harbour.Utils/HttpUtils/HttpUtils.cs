@@ -72,7 +72,8 @@ namespace Harbour.Utils
             });
         }
         /// <summary>
-        /// 文件上传至远程服务器。传入：Url、CookieContainer、PostParam、PostedFile
+        /// 文件上传至远程服务器
+        /// 传入：Url、CookieContainer、PostParam、PostedFile
         /// </summary>
         public static string PostFile(HttpParam param)
         {
@@ -192,7 +193,7 @@ namespace Harbour.Utils
                 {
                     postParamString = param.PostParam.ToString();
                 }
-                else if (param.ParamType == EnumHelper.HttpParamType.Form)
+                else if (param.ParamType == HttpParamType.Form)
                 {
                     var dicParam = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(param.PostParam));
                     postParamString = dicParam.Aggregate(postParamString, (current, dic) => current + (dic.Key + "=" + dic.Value + "&")).TrimEnd('&');

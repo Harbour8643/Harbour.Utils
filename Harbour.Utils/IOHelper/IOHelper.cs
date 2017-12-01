@@ -12,9 +12,6 @@ namespace Harbour.Utils
     /// </summary>
     public class IOHelper
     {
-
-        #region  序列化为XML
-
         /// <summary>
         /// XML序列化
         /// </summary>
@@ -99,8 +96,6 @@ namespace Harbour.Utils
                 return (T)serializer.Deserialize(reader);
             }
         }
-
-        #endregion
 
     }
 }

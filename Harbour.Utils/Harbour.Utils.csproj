@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Harbour.Utils.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -80,21 +81,26 @@
     <Compile Include="DEncrypt\HashEncode.cs" />
     <Compile Include="DEncrypt\MD5.cs" />
     <Compile Include="DEncrypt\RSACryption.cs" />
-    <Compile Include="HttpUtils\EnumHelper.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\IsWhatExtensions.cs" />
+    <Compile Include="Extensions\LogicExtenions.cs" />
     <Compile Include="HttpUtils\HttpHelper.cs" />
     <Compile Include="HttpUtils\HttpParam.cs" />
     <Compile Include="HttpUtils\HttpUtils.cs" />
     <Compile Include="HttpUtils\JsonResponse.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="IOHelper\ExcelNPOIHelper.cs" />
     <Compile Include="IOHelper\FileHelper.cs" />
     <Compile Include="IOHelper\IOHelper.cs" />
+    <Compile Include="Extensions\IQueryableExtensions.cs" />
     <Compile Include="LogHelpers\LogHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomHelper\RandomHelper.cs" />
     <Compile Include="SharpZip\SharpZip.cs" />
     <Compile Include="TypeParse\StringHelper.cs" />
-    <Compile Include="TypeParse\TypeHelper.cs" />
+    <Compile Include="Extensions\TypeParseExtensions.cs" />
     <Compile Include="ValidateHelper\ValidateHelper.cs" />
+    <Compile Include="YZMHelper\VerifyCodeSugar.cs" />
     <Compile Include="YZMHelper\YZMHelper.cs" />
   </ItemGroup>
   <ItemGroup>

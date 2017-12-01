@@ -128,7 +128,7 @@ namespace Harbour.Utils
         /// <returns></returns>
         public string GetCode(int letterCount = 4)
         {
-            return RandomHelper.GetNumber(letterCount);
+            return RandomHelper.GetRandomNum(letterCount);
         }
 
         /// <summary>
