@@ -7,6 +7,7 @@ using System.Data;
 using System.Reflection;
 using System.Collections;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Harbour.Utils
 {
@@ -147,12 +148,43 @@ namespace Harbour.Utils
             }
             return retInt;
         }
+        /// <summary>
+        /// 分割字符串
+        /// </summary>
+        /// <param name="sourceStr">源字符串</param>
+        /// <param name="splitStr">分隔字符串</param>
+        /// <returns></returns>
+        public static string[] TryToStringArray(this string sourceStr, string splitStr = ",")
+        {
+            if (string.IsNullOrEmpty(sourceStr) || string.IsNullOrEmpty(splitStr))
+                return new string[0] { };
+
+            if (sourceStr.IndexOf(splitStr) == -1)
+                return new string[] { sourceStr };
+
+            if (splitStr.Length == 1)
+                return sourceStr.Split(splitStr[0]);
+            else
+                return Regex.Split(sourceStr, Regex.Escape(splitStr), RegexOptions.IgnoreCase);
+
+        }
+        /// <summary>
+        /// 分割字符串并转化为int[]
+        /// </summary>
+        /// <param name="sourceStr">源字符串</param>
+        /// <param name="splitStr">分割符 默认：','</param>
+        /// <param name="defaultValue">int默认值</param>
+        /// <returns></returns>
+        public static int[] TryToIntArray(this string sourceStr, string splitStr = ",", int defaultValue = 0)
+        {
+            return sourceStr.TryToStringArray(splitStr).TryToIntArray(defaultValue);
+        }
 
         /// <summary>
         /// 将Json序列化为实体
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <param name="Json"></param>
+        /// <param name="json"></param>
         /// <returns></returns>
         public static TEntity JsonToModel<TEntity>(this string json)
         {

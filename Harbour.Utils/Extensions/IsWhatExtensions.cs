@@ -22,11 +22,21 @@ namespace Harbour.Utils
             if (thisValue == null) return false;
             return thisValue.ToString() != "";
         }
+        ///// <summary>
+        ///// 有值?
+        ///// </summary>
+        ///// <returns></returns>
+        //public static bool IsValuable(this IEnumerable<object> thisValue)
+        //{
+        //    if (thisValue == null || thisValue.Count() == 0) return false;
+        //    return true;
+        //}
+
         /// <summary>
         /// 有值?
         /// </summary>
         /// <returns></returns>
-        public static bool IsValuable(this IEnumerable<object> thisValue)
+        public static bool IsValuable<T>(this IEnumerable<T> thisValue)
         {
             if (thisValue == null || thisValue.Count() == 0) return false;
             return true;

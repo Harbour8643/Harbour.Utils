@@ -12,10 +12,9 @@ namespace Harbour.Utils
     public static class IEnumerableExtensions
     {
         /// <summary>
-        /// foreach 用法:xx.ForEach(i=>{  })
+        /// ForEach 用法:XX.ForEach((e,i)=>{  })
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="?"></typeparam>
         /// <param name="source"></param>
         /// <param name="action"></param>
         /// <returns></returns>
@@ -32,10 +31,9 @@ namespace Harbour.Utils
             }
         }
         /// <summary>
-        /// foreach 用法:xx.ForEach({  })
+        /// ForEach 用法:XX.ForEach({  })
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="?"></typeparam>
         /// <param name="source"></param>
         /// <param name="action"></param>
         /// <returns></returns>
