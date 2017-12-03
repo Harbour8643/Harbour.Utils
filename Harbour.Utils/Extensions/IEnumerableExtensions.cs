@@ -12,6 +12,36 @@ namespace Harbour.Utils
     public static class IEnumerableExtensions
     {
         /// <summary>
+        /// ForEach
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (var element in source)
+            {
+                action(element);
+                yield return element;
+            }
+        }
+        /// <summary>
+        /// Distinct
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="V"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <param name="comparer">默认比较器</param>
+        /// <returns></returns>
+        public static IEnumerable<T> Distinct<T, V>(this IEnumerable<T> source, Func<T, V> keySelector, IEqualityComparer<V> comparer = null)
+        {
+            comparer = comparer == null ? EqualityComparer<V>.Default : comparer;
+            return source.Distinct(ComparisonHelper<T>.CreateComparer(keySelector, comparer));
+        }
+
+        /// <summary>
         /// ForEach 用法:XX.ForEach((e,i)=>{  })
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -63,7 +93,7 @@ namespace Harbour.Utils
             {
                 throw new Exception("No property '" + sortField + "' in + " + typeof(T).Name + "'");
             }
-            if (orderByType == OrderByType.desc)
+            if (orderByType == OrderByType.DESC)
                 return list.OrderByDescending(x => prop.GetValue(x, null));
             else
                 return list.OrderBy(x => prop.GetValue(x, null));
@@ -80,10 +110,10 @@ namespace Harbour.Utils
         {
             PropertyInfo prop = typeof(T).GetProperty(sortField);
 
-            if (orderByType == OrderByType.desc)
+            if (orderByType == OrderByType.DESC)
                 return list.OrderByDescending(x => prop.GetValue(x, null));
 
-            if (orderByType == OrderByType.desc)
+            if (orderByType == OrderByType.DESC)
                 return list.ThenByDescending(x => prop.GetValue(x, null));
             else
                 return list.ThenBy(x => prop.GetValue(x, null));
@@ -100,7 +130,7 @@ namespace Harbour.Utils
         public static IOrderedEnumerable<T> OrderByDataRow<T>(this IEnumerable<T> list, string sortField, OrderByType orderByType) where T : DataRow
         {
             PropertyInfo prop = typeof(T).GetProperty(sortField);
-            if (orderByType == OrderByType.desc)
+            if (orderByType == OrderByType.DESC)
                 return list.OrderByDescending(it => it[sortField]);
             else
                 return list.OrderBy(it => it[sortField]);
@@ -117,7 +147,7 @@ namespace Harbour.Utils
         public static IOrderedEnumerable<T> ThenByDataRow<T>(this IOrderedEnumerable<T> list, string sortField, OrderByType orderByType) where T : DataRow
         {
             PropertyInfo prop = typeof(T).GetProperty(sortField);
-            if (orderByType == OrderByType.desc)
+            if (orderByType == OrderByType.DESC)
                 return list.ThenByDescending(it => it[sortField]);
             else
                 return list.ThenBy(it => it[sortField]);
@@ -128,8 +158,14 @@ namespace Harbour.Utils
         /// </summary>
         public enum OrderByType
         {
-            asc = 1,
-            desc = 2
+            /// <summary>
+            /// 顺序
+            /// </summary>
+            ASC = 1,
+            /// <summary>
+            /// 倒序
+            /// </summary>
+            DESC = 2
         }
     }
 }

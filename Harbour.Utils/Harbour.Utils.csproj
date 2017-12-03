@@ -89,6 +89,7 @@
     <Compile Include="HttpUtils\HttpUtils.cs" />
     <Compile Include="HttpUtils\JsonResponse.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="IEqualityComparer\ComparisonHelper.cs" />
     <Compile Include="IOHelper\ExcelNPOIHelper.cs" />
     <Compile Include="IOHelper\FileHelper.cs" />
     <Compile Include="IOHelper\IOHelper.cs" />
