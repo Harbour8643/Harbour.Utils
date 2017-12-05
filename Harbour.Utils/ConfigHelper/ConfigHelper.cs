@@ -1,13 +1,12 @@
 using System;
 using System.Configuration;
-using System.Web.Configuration;
 
 namespace Harbour.Utils
 {
-	/// <summary>
-	/// web.config操作类
-	/// </summary>
-	public sealed class ConfigHelper
+    /// <summary>
+    /// web.config操作类
+    /// </summary>
+    public sealed class ConfigHelper
 	{
         /// <summary>
         /// 获得Web.config ConnectionString 里的配置信息

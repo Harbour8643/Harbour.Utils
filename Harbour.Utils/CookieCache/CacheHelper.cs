@@ -10,6 +10,14 @@ namespace Harbour.Utils
     /// </summary>
     public class CacheHelper
     {
+        /// <summary>         
+        ///根据key获取value     
+        /// </summary>         
+        /// <value></value>      
+        public object this[string CacheKey]
+        {
+            get { return HttpRuntime.Cache[CacheKey]; }
+        }
         /// <summary>
         /// 获取数据缓存
         /// </summary>
@@ -17,6 +25,15 @@ namespace Harbour.Utils
         public static object GetCache(string CacheKey)
         {
             return HttpRuntime.Cache[CacheKey];
+        }
+
+        /// <summary>
+        /// 获取数据缓存
+        /// </summary>
+        /// <param name="CacheKey">缓存键</param>
+        public static V GetCache<V>(string CacheKey)
+        {
+            return (V)HttpRuntime.Cache[CacheKey];
         }
 
         /// <summary>
