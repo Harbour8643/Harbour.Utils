@@ -199,7 +199,7 @@ namespace Harbour.Utils
         /// <returns></returns>
         public static int GetFormInt(string key, int defaultValue = 0)
         {
-            return GetFormInt(key).TryToInt(defaultValue);
+            return GetFormString(key).TryToInt(defaultValue);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Harbour.Utils
         /// <returns></returns>
         public static int GetRequestInt(string key, int defaultValue = 0)
         {
-            return GetRequestInt(key).TryToInt(defaultValue);
+            return GetRequestString(key).TryToInt(defaultValue);
         }
 
         #endregion
