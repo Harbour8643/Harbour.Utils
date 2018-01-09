@@ -10,6 +10,9 @@ using System.Web;
 
 namespace Harbour.Utils
 {
+    /// <summary>
+    /// 验证码类
+    /// </summary>
     public class VerifyCode
     {
         private Random objRandom = new Random();

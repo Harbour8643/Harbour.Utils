@@ -154,7 +154,7 @@ namespace Harbour.Utils
         /// <param name="filePath">文件的相对路径</param>
         public static void CreateFile(string filePath)
         {
-            CreateFileMapPath(GetMapPath(filePath));
+            CreateFileMapPath(filePath);
         }
         /// <summary>
         /// 创建一个文件
@@ -256,6 +256,8 @@ namespace Harbour.Utils
         {
             try
             {
+                if (buffer == null || buffer.Length <= 0)
+                    return;
                 if (!File.Exists(fileMapPath))//文件不存在
                 {
                     //获取文件目录路径
@@ -264,9 +266,7 @@ namespace Harbour.Utils
                     {
                         Directory.CreateDirectory(directoryPath);
                     }
-                }
-                if (buffer == null || buffer.Length <= 0)
-                    return;
+                }            
                 lock (sync)
                 {
                     Char[] ch = encoding.GetChars(buffer);
