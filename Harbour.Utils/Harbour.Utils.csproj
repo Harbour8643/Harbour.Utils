@@ -80,7 +80,7 @@
     <Compile Include="TypeParse\StringHelper.cs" />
     <Compile Include="Extensions\TypeParseExtensions.cs" />
     <Compile Include="ValidateHelper\ValidateHelper.cs" />
-    <Compile Include="YZMHelper\VerifyCodeSugar.cs" />
+    <Compile Include="YZMHelper\VerifyCode.cs" />
     <Compile Include="YZMHelper\YZMHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -89,9 +89,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lib\ICSharpCode.SharpZipLib.dll" />
+    <Folder Include="Lib\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
