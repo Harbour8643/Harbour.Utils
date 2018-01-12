@@ -3,7 +3,6 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace Harbour.Utils
 {

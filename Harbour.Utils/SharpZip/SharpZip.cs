@@ -2,7 +2,6 @@
 using System.IO;
 using System.Diagnostics;
 using Microsoft.Win32;
-
 using ICSharpCode.SharpZipLib.Checksums;
 using ICSharpCode.SharpZipLib.Zip;
 
