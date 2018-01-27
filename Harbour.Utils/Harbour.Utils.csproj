@@ -58,6 +58,7 @@
     <Compile Include="DEncrypt\HashEncode.cs" />
     <Compile Include="DEncrypt\MD5.cs" />
     <Compile Include="DEncrypt\RSACryption.cs" />
+    <Compile Include="EntityConverter\EntityConverter.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\IsWhatExtensions.cs" />
     <Compile Include="Extensions\LogicExtenions.cs" />
