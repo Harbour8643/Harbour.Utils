@@ -33,7 +33,11 @@ namespace Harbour.Utils
         /// <param name="CacheKey">缓存键</param>
         public static V GetCache<V>(string CacheKey)
         {
-            return (V)HttpRuntime.Cache[CacheKey];
+            var ret = HttpRuntime.Cache[CacheKey];
+            if (ret != null)
+                return (V)ret;
+            else
+                return default(V);
         }
 
         /// <summary>

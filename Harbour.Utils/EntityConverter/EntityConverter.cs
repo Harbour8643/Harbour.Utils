@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Web;
 
 namespace Harbour.Utils
 {
@@ -63,8 +60,49 @@ namespace Harbour.Utils
             }
             return list;
         }
+        /// <summary>
+        /// 将IDataReader转换为实体
+        /// </summary>
+        /// <typeparam name="T">实体类（必须有默认构造参数）</typeparam>
+        /// <param name="dr">IDataReader</param>
+        /// <returns></returns>
+        public static T ToEntity<T>(IDataReader dr) where T : new()
+        {
+            T t = default(T);
+            if (dr.Read())
+            {
+                t = new T();
+                foreach (PropertyInfo prop in typeof(T).GetProperties())
+                {
+                    GetSetter<T>(prop)(t, dr[prop.Name]);
+                }
+            }
+            return t;
+        }
 
-
+        private static Action<T, object> GetSetter<T>(PropertyInfo property)
+        {
+            Action<T, object> result = null;
+            Type type = typeof(T);
+            string key = type.AssemblyQualifiedName + "_set_" + property.Name;
+            if (CacheHelper.GetCache(key) == null)
+            {
+                //创建 对实体 属性赋值的expression
+                ParameterExpression parameter = Expression.Parameter(type, "t");
+                ParameterExpression value = Expression.Parameter(typeof(object), "propertyValue");
+                MethodInfo setter = type.GetMethod("set_" + property.Name);
+                MethodCallExpression call = Expression.Call(parameter, setter, Expression.Convert(value, property.PropertyType));
+                var lambda = Expression.Lambda<Action<T, object>>(call, parameter, value);
+                result = lambda.Compile();
+                CacheHelper.SetCache(key, result, TimeSpan.FromMinutes(60));
+            }
+            else
+            {
+                result = CacheHelper.GetCache<Action<T, object>>(key);
+            }
+            return result;
+        }
+        /*
         private static Action<T, object> GetSetter<T>(PropertyInfo property)
         {
             Action<T, object> result = null;
@@ -87,6 +125,6 @@ namespace Harbour.Utils
             }
             return result;
         }
-
+        */
     }
 }
