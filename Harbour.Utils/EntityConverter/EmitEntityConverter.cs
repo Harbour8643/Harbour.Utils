@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq.Expressions;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Harbour.Utils
 {
     /// <summary>
-    /// 实体转换类（默认有缓存）
+    /// 实体转换类
     /// </summary>
-    public class EntityConverter
+    public class EmitEntityConverter
     {
         /// <summary>
-        /// 将DataRow转为实体
+        /// 将DataRow转为T
         /// </summary>
         /// <typeparam name="T">实体类（必须有默认构造参数）</typeparam>
         /// <param name="dr">DataRow</param>
@@ -28,7 +28,7 @@ namespace Harbour.Utils
                 if (dr.Table.Columns.Contains(prop.Name))
                 {
                     if (dr[prop.Name] != DBNull.Value)
-                        GetSetter<T>(prop)(t, dr[prop.Name]);
+                        EmitSetter<T>(prop.Name)(t, dr[prop.Name]);
                 }
             }
             return t;
@@ -48,7 +48,7 @@ namespace Harbour.Utils
                 foreach (PropertyInfo prop in typeof(T).GetProperties())
                 {
                     if (dr[prop.Name] != DBNull.Value)
-                        GetSetter<T>(prop)(t, dr[prop.Name]);
+                        EmitSetter<T>(prop.Name)(t, dr[prop.Name]);
                 }
             }
             return t;
@@ -76,7 +76,7 @@ namespace Harbour.Utils
                     if (dr.Table.Columns.Contains(prop.Name))
                     {
                         if (dr[prop.Name] != DBNull.Value)
-                            GetSetter<T>(prop)(t, dr[prop.Name]);
+                            EmitSetter<T>(prop.Name)(t, dr[prop.Name]);
                     }
                 }
                 list.Add(t);
@@ -99,58 +99,49 @@ namespace Harbour.Utils
                 foreach (PropertyInfo prop in typeof(T).GetProperties())
                 {
                     if (dr[prop.Name] != DBNull.Value)
-                        GetSetter<T>(prop)(t, dr[prop.Name]);
+                        EmitSetter<T>(prop.Name)(t, dr[prop.Name]);
                 }
                 list.Add(t);
             }
             return list;
         }
 
-        private static Action<T, object> GetSetter<T>(PropertyInfo property)
+        /// <summary>
+        /// 通过Emit向T对象propertyName属性赋值
+        /// </summary>
+        /// <typeparam name="T">实体对象</typeparam>
+        /// <param name="propertyName">对象属性名</param>
+        /// <returns></returns>
+        public static Action<T, object> EmitSetter<T>(string propertyName)
         {
-            Action<T, object> result = null;
-            Type type = typeof(T);
-            string key = type.AssemblyQualifiedName + "_set_" + property.Name;
-            if (CacheHelper.GetCache(key) == null)
+            var type = typeof(T);
+            var dynamicMethod = new DynamicMethod("EmitCallable", null, new[] { type, typeof(object) }, type.Module);
+            var iLGenerator = dynamicMethod.GetILGenerator();
+
+            var callMethod = type.GetMethod("set_" + propertyName, BindingFlags.Instance | BindingFlags.IgnoreCase | BindingFlags.Public);
+            var parameterInfo = callMethod.GetParameters()[0];
+            var local = iLGenerator.DeclareLocal(parameterInfo.ParameterType, true);
+
+            iLGenerator.Emit(OpCodes.Ldarg_1);
+            if (parameterInfo.ParameterType.IsValueType)
             {
-                //创建 对实体 属性赋值的expression
-                ParameterExpression parameter = Expression.Parameter(type, "t");
-                ParameterExpression value = Expression.Parameter(typeof(object), "propertyValue");
-                MethodInfo setter = type.GetMethod("set_" + property.Name);
-                MethodCallExpression call = Expression.Call(parameter, setter, Expression.Convert(value, property.PropertyType));
-                var lambda = Expression.Lambda<Action<T, object>>(call, parameter, value);
-                result = lambda.Compile();
-                CacheHelper.SetCache(key, result, TimeSpan.FromMinutes(60));
+                // 如果是值类型，拆箱
+                iLGenerator.Emit(OpCodes.Unbox_Any, parameterInfo.ParameterType);
             }
             else
             {
-                result = CacheHelper.GetCache<Action<T, object>>(key);
+                // 如果是引用类型，转换
+                iLGenerator.Emit(OpCodes.Castclass, parameterInfo.ParameterType);
             }
-            return result;
+
+            iLGenerator.Emit(OpCodes.Stloc, local);
+            iLGenerator.Emit(OpCodes.Ldarg_0);
+            iLGenerator.Emit(OpCodes.Ldloc, local);
+
+            iLGenerator.EmitCall(OpCodes.Callvirt, callMethod, null);
+            iLGenerator.Emit(OpCodes.Ret);
+
+            return dynamicMethod.CreateDelegate(typeof(Action<T, object>)) as Action<T, object>;
         }
-        /*
-        private static Action<T, object> GetSetter<T>(PropertyInfo property)
-        {
-            Action<T, object> result = null;
-            Type type = typeof(T);
-            string key = type.AssemblyQualifiedName + "_set_" + property.Name;
-            if (HttpRuntime.Cache.Get(key) == null)
-            {
-                //创建 对实体 属性赋值的expression
-                ParameterExpression parameter = Expression.Parameter(type, "t");
-                ParameterExpression value = Expression.Parameter(typeof(object), "propertyValue");
-                MethodInfo setter = type.GetMethod("set_" + property.Name);
-                MethodCallExpression call = Expression.Call(parameter, setter, Expression.Convert(value, property.PropertyType));
-                var lambda = Expression.Lambda<Action<T, object>>(call, parameter, value);
-                result = lambda.Compile();
-                HttpRuntime.Cache[key] = result;
-            }
-            else
-            {
-                result = HttpRuntime.Cache[key] as Action<T, object>;
-            }
-            return result;
-        }
-        */
     }
 }
