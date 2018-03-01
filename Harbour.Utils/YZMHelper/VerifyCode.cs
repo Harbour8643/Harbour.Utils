@@ -259,7 +259,19 @@ namespace Harbour.Utils
                         HttpContext.Current.Response.ContentType = "image/Jpeg";
                         HttpContext.Current.Response.BinaryWrite(objMS.ToArray());
                         HttpContext.Current.Response.Flush();
-                        HttpContext.Current.Response.End();
+                        try
+                        {
+                            HttpContext.Current.Response.End();
+                        }
+                        catch
+                        {
+                            /*
+                             * 微软解释原因
+                             * Response.End 方法停止页的执行，并将该执行变换到应用程序的事件管线中的 Application_EndRequest 事件。
+                             * Response.End 后面的代码行将不执行。
+                             * 这种现象是设计使然。
+                            */
+                        }
                         result = true;
                     }
                 }
