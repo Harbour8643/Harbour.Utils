@@ -79,8 +79,7 @@
     <Compile Include="TypeParse\StringHelper.cs" />
     <Compile Include="Extensions\TypeParseExtensions.cs" />
     <Compile Include="ValidateHelper\ValidateHelper.cs" />
-    <Compile Include="YZMHelper\VerifyCode.cs" />
-    <Compile Include="YZMHelper\YZMHelper.cs" />
+    <Compile Include="VerifyCodeHelper\VerifyCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NuGet\Harbour.bat" />
