@@ -303,19 +303,7 @@ namespace Harbour.Utils
                 HttpContext.Current.Response.ContentType = "application/octet-stream";
                 HttpContext.Current.Response.WriteFile(destFileName);
                 HttpContext.Current.Response.Flush();
-                try
-                {
-                    HttpContext.Current.Response.End();
-                }
-                catch
-                {
-                    /*
-                     * 微软解释原因
-                     * Response.End 方法停止页的执行，并将该执行变换到应用程序的事件管线中的 Application_EndRequest 事件。
-                     * Response.End 后面的代码行将不执行。
-                     * 这种现象是设计使然。
-                    */
-                }
+                HttpContext.Current.ApplicationInstance.CompleteRequest();
             }
         }
 
