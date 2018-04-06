@@ -266,7 +266,7 @@ namespace Harbour.Utils
                     {
                         Directory.CreateDirectory(directoryPath);
                     }
-                }            
+                }
                 lock (sync)
                 {
                     Char[] ch = encoding.GetChars(buffer);
@@ -303,7 +303,7 @@ namespace Harbour.Utils
                 HttpContext.Current.Response.ContentType = "application/octet-stream";
                 HttpContext.Current.Response.WriteFile(destFileName);
                 HttpContext.Current.Response.Flush();
-                HttpContext.Current.Response.End();
+                HttpContext.Current.ApplicationInstance.CompleteRequest();
             }
         }
 
@@ -429,7 +429,7 @@ namespace Harbour.Utils
             }
             return true;
         }
-     
+
         #endregion
 
         #region 上传
@@ -531,8 +531,8 @@ namespace Harbour.Utils
             string extension = Path.GetExtension(FileName);
             return StringHelper.TrimStart(extension, ".") + DateTime.Now.ToString("yyMMddHHmmssfffffff") + extension;
         }
-   
+
         #endregion
-    
+
     }
 }

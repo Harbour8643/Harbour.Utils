@@ -58,6 +58,7 @@
     <Compile Include="DEncrypt\HashEncode.cs" />
     <Compile Include="DEncrypt\MD5.cs" />
     <Compile Include="DEncrypt\RSACryption.cs" />
+    <Compile Include="EntityConverter\EmitEntityConverter.cs" />
     <Compile Include="EntityConverter\EntityConverter.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\IsWhatExtensions.cs" />
@@ -78,8 +79,7 @@
     <Compile Include="TypeParse\StringHelper.cs" />
     <Compile Include="Extensions\TypeParseExtensions.cs" />
     <Compile Include="ValidateHelper\ValidateHelper.cs" />
-    <Compile Include="YZMHelper\VerifyCode.cs" />
-    <Compile Include="YZMHelper\YZMHelper.cs" />
+    <Compile Include="VerifyCodeHelper\VerifyCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NuGet\Harbour.bat" />

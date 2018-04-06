@@ -184,7 +184,7 @@ namespace Harbour.Utils
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static TEntity JsonToModel<TEntity>(this string json)
+        public static TEntity TryToModel<TEntity>(this string json)
         {
             return JsonConvert.DeserializeObject<TEntity>(json);
         }
@@ -193,7 +193,7 @@ namespace Harbour.Utils
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static string ModelToJson<T>(this T model)
+        public static string TryToJson<TEntity>(this TEntity model)
         {
             return JsonConvert.SerializeObject(model);
         }

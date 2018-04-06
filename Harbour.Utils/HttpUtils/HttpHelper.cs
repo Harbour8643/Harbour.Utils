@@ -402,7 +402,7 @@ namespace Harbour.Utils
         {
             HttpContext.Current.Response.ContentType = "Application/pdf";
             HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.Response.End();
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
 
         /// <summary>
@@ -413,7 +413,7 @@ namespace Harbour.Utils
         {
             HttpContext.Current.Response.ContentType = "Application/msword";
             HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.Response.End();
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
         /// <summary>
         /// 网页中显示内容Excel
@@ -423,7 +423,7 @@ namespace Harbour.Utils
         {
             HttpContext.Current.Response.ContentType = "Application/x-msexcel";
             HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.Response.End();
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
         /// <summary>
         /// 网页中显示内容HTML
@@ -433,7 +433,7 @@ namespace Harbour.Utils
         {
             HttpContext.Current.Response.ContentType = "text/HTML";
             HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.Response.End();
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
         /// <summary>
         /// 网页中显示内容
@@ -442,7 +442,7 @@ namespace Harbour.Utils
         public static void Show(string filePath)
         {
             HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.Response.End();
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
         #endregion
 
