@@ -12,6 +12,47 @@ namespace Harbour.Utils
     public class EntityConverter
     {
         /// <summary>
+        /// 将DataRow转为List
+        /// </summary>
+        /// <typeparam name="T">实体类（必须有默认构造参数）</typeparam>
+        /// <param name="dr">DataRow</param>
+        /// <returns></returns>
+        public static T ToEntity<T>(DataRow dr) where T : new()
+        {
+            if (dr == null)
+                return default(T);
+
+            T t = new T();
+            foreach (PropertyInfo prop in typeof(T).GetProperties())
+            {
+                if (dr.Table.Columns.Contains(prop.Name))
+                {
+                    GetSetter<T>(prop)(t, dr[prop.Name]);
+                }
+            }
+            return t;
+        }
+        /// <summary>
+        /// 将IDataReader转换为实体
+        /// </summary>
+        /// <typeparam name="T">实体类（必须有默认构造参数）</typeparam>
+        /// <param name="dr">IDataReader</param>
+        /// <returns></returns>
+        public static T ToEntity<T>(IDataReader dr) where T : new()
+        {
+            T t = default(T);
+            if (dr.Read())
+            {
+                t = new T();
+                foreach (PropertyInfo prop in typeof(T).GetProperties())
+                {
+                    GetSetter<T>(prop)(t, dr[prop.Name]);
+                }
+            }
+            return t;
+        }
+
+        /// <summary>
         /// 将DataTable转为List
         /// </summary>
         /// <typeparam name="T">实体类（必须有默认构造参数）</typeparam>
@@ -59,25 +100,6 @@ namespace Harbour.Utils
                 list.Add(t);
             }
             return list;
-        }
-        /// <summary>
-        /// 将IDataReader转换为实体
-        /// </summary>
-        /// <typeparam name="T">实体类（必须有默认构造参数）</typeparam>
-        /// <param name="dr">IDataReader</param>
-        /// <returns></returns>
-        public static T ToEntity<T>(IDataReader dr) where T : new()
-        {
-            T t = default(T);
-            if (dr.Read())
-            {
-                t = new T();
-                foreach (PropertyInfo prop in typeof(T).GetProperties())
-                {
-                    GetSetter<T>(prop)(t, dr[prop.Name]);
-                }
-            }
-            return t;
         }
 
         private static Action<T, object> GetSetter<T>(PropertyInfo property)
