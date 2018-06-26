@@ -179,13 +179,15 @@ namespace Harbour.Utils
         }
 
         /// <summary>
-        /// 将Json序列化为实体
+        /// 将Json序列化为实体,注意，集合默认值为null
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="json"></param>
         /// <returns></returns>
         public static TEntity TryToModel<TEntity>(this string json)
         {
+            if (string.IsNullOrEmpty(json))
+                return default(TEntity);
             return JsonConvert.DeserializeObject<TEntity>(json);
         }
         /// <summary>
