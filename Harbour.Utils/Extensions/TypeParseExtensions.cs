@@ -183,11 +183,12 @@ namespace Harbour.Utils
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="json"></param>
+        /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static TEntity TryToModel<TEntity>(this string json)
+        public static TEntity TryToModel<TEntity>(this string json, TEntity defaultValue = default(TEntity))
         {
-            if (string.IsNullOrEmpty(json))
-                return default(TEntity);
+            if (string.IsNullOrEmpty(json) || "null".Equals(json))
+                return defaultValue;
             return JsonConvert.DeserializeObject<TEntity>(json);
         }
         /// <summary>

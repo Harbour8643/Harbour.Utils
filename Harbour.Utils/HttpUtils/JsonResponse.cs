@@ -8,7 +8,7 @@ namespace Harbour.Utils
     /// <summary>
     /// Json返回值类
     /// </summary>
-    public class JsonResponse
+    public class JsonResponse<T>
     {
         /// <summary>
         /// 返回码
@@ -23,6 +23,6 @@ namespace Harbour.Utils
         /// <summary>
         /// 返回内容
         /// </summary>
-        public string Data { get; set; }
+        public T Data { get; set; }
     }
 }

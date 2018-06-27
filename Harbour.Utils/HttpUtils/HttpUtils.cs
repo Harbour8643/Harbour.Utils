@@ -81,10 +81,10 @@ namespace Harbour.Utils
             request.CookieContainer = param.CookieContainer;
             request.Method = "POST";
             request.Timeout = 20000;
-            request.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            request.Credentials = CredentialCache.DefaultCredentials;
             request.KeepAlive = true;
             var boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
-            var boundaryBytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            var boundaryBytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
             request.ContentType = "multipart/form-data; boundary=" + boundary;
             var formdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\";\r\n\r\n{1}";
             var buffer = new byte[param.PostedFile.ContentLength];
@@ -236,22 +236,9 @@ namespace Harbour.Utils
         /// 
         /// </summary>
         /// <param name="url"></param>
-        /// <returns></returns>
-        public static string Get(string url)
-        {
-            return Get(new HttpParam()
-            {
-                Url = url,
-                Method = "GET"
-            });
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
         /// <param name="getParam"></param>
         /// <returns></returns>
-        public static string Get(string url, object getParam)
+        public static string Get(string url, object getParam = null)
         {
             var param = new HttpParam
             {
@@ -271,36 +258,15 @@ namespace Harbour.Utils
             param.Method = "GET";
             return RequestString(param);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static T Get<T>(string url)
-        {
-            var str = Get(new HttpParam()
-            {
-                Url = url,
-                Method = "GET"
-            });
-            return JsonConvert.DeserializeObject<T>(str);
-        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="url"></param>
         /// <param name="getParam"></param>
         /// <returns></returns>
-        public static T Get<T>(string url, object getParam)
+        public static T Get<T>(string url, object getParam = null)
         {
-            var param = new HttpParam
-            {
-                Url = url,
-                Method = "GET",
-                GetParam = getParam
-            };
-            var str = Get(param);
+            var str = Get(url, getParam);
             return JsonConvert.DeserializeObject<T>(str);
         }
         /// <summary>
@@ -314,25 +280,15 @@ namespace Harbour.Utils
             var str = Get(param);
             return JsonConvert.DeserializeObject<T>(str);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static JsonResponse GetJR(string url)
-        {
-            return Get<JsonResponse>(url);
-        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="url"></param>
         /// <param name="getParam"></param>
         /// <returns></returns>
-        public static JsonResponse GetJR(string url, object getParam)
+        public static JsonResponse<T> GetJR<T>(string url, object getParam = null)
         {
-            return Get<JsonResponse>(url, getParam);
+            return Get<JsonResponse<T>>(url, getParam);
         }
         /// <summary>
         /// 
@@ -340,9 +296,9 @@ namespace Harbour.Utils
         /// <typeparam name="T"></typeparam>
         /// <param name="param"></param>
         /// <returns></returns>
-        public static JsonResponse GetJR(HttpParam param)
+        public static JsonResponse<T> GetJR<T>(HttpParam param)
         {
-            return Get<JsonResponse>(param);
+            return Get<JsonResponse<T>>(param);
         }
         #endregion
 
@@ -351,23 +307,9 @@ namespace Harbour.Utils
         /// 
         /// </summary>
         /// <param name="url"></param>
-        /// <returns></returns>
-        public static string Post(string url)
-        {
-            var str = Post(new HttpParam()
-            {
-                Url = url,
-                Method = "POST"
-            });
-            return str;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
         /// <param name="postParam"></param>
         /// <returns></returns>
-        public static string Post(string url, object postParam)
+        public static string Post(string url, object postParam = null)
         {
             var param = new HttpParam
             {
@@ -389,36 +331,15 @@ namespace Harbour.Utils
             var str = RequestString(param);
             return str;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static T Post<T>(string url)
-        {
-            var str = Post(new HttpParam()
-            {
-                Url = url,
-                Method = "POST"
-            });
-            return JsonConvert.DeserializeObject<T>(str);
-        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="url"></param>
         /// <param name="postParam"></param>
         /// <returns></returns>
-        public static T Post<T>(string url, object postParam)
+        public static T Post<T>(string url, object postParam = null)
         {
-            var param = new HttpParam
-            {
-                Url = url,
-                Method = "POST",
-                PostParam = postParam
-            };
-            var str = Post(param);
+            var str = Post(url, postParam);
             return JsonConvert.DeserializeObject<T>(str);
         }
         /// <summary>
@@ -433,25 +354,15 @@ namespace Harbour.Utils
             var str = Post(param);
             return JsonConvert.DeserializeObject<T>(str);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static JsonResponse PostJR(string url)
-        {
-            return Post<JsonResponse>(url);
-        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="url"></param>
         /// <param name="postParam"></param>
         /// <returns></returns>
-        public static JsonResponse PostJR(string url, object postParam)
+        public static JsonResponse<T> PostJR<T>(string url, object postParam = null)
         {
-            return Post<JsonResponse>(url, postParam);
+            return Post<JsonResponse<T>>(url, postParam);
         }
         /// <summary>
         /// 
@@ -459,9 +370,9 @@ namespace Harbour.Utils
         /// <typeparam name="T"></typeparam>
         /// <param name="param"></param>
         /// <returns></returns>
-        public static JsonResponse PostJR(HttpParam param)
+        public static JsonResponse<T> PostJR<T>(HttpParam param)
         {
-            return Post<JsonResponse>(param);
+            return Post<JsonResponse<T>>(param);
         }
 
         #endregion
