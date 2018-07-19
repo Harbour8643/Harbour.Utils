@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Harbour.Utils.Extensions
+namespace Harbour.Utils
 {
     /// <summary>
     /// 逻辑判断类
