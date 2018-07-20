@@ -55,10 +55,6 @@
     <Compile Include="汉字拼音\EcanConvertToCh.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NuGet\Harbour.bat" />
-    <None Include="NuGet\Harbour.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Harbour.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
