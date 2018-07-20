@@ -2,7 +2,7 @@
 using System;
 using System.Web;
 
-namespace Harbour.Utils
+namespace Harbour.Web
 {
     /// <summary>
     /// Cookie帮助类

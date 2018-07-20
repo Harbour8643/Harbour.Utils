@@ -36,10 +36,6 @@
     <ApplicationIcon>Harbour.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -47,15 +43,11 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigHelper\ConfigHelper.cs" />
-    <Compile Include="CookieCache\CacheHelper.cs" />
-    <Compile Include="CookieCache\CookieHelper.cs" />
     <Compile Include="DEncrypt\AESEncrypt.cs" />
     <Compile Include="DEncrypt\DESEncrypt.cs" />
     <Compile Include="DEncrypt\HashEncode.cs" />
@@ -66,28 +58,24 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\IsWhatExtensions.cs" />
     <Compile Include="Extensions\LogicExtenions.cs" />
-    <Compile Include="HttpUtils\HttpHelper.cs" />
     <Compile Include="HttpUtils\HttpParam.cs" />
     <Compile Include="HttpUtils\HttpUtils.cs" />
     <Compile Include="HttpUtils\JsonResponse.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="IEqualityComparer\ComparisonHelper.cs" />
-    <Compile Include="IOHelper\FileHelper.cs" />
-    <Compile Include="IOHelper\IOHelper.cs" />
     <Compile Include="Extensions\IQueryableExtensions.cs" />
     <Compile Include="LogHelpers\LogHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomHelper\RandomHelper.cs" />
-    <Compile Include="SharpZip\SharpZip.cs" />
     <Compile Include="TypeParse\StringHelper.cs" />
     <Compile Include="Extensions\TypeParseExtensions.cs" />
     <Compile Include="ValidateHelper\ValidateHelper.cs" />
     <Compile Include="VerifyCodeHelper\VerifyCode.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NuGet\Harbour.bat" />
-    <None Include="NuGet\Harbour.nuspec" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Harbour.ico" />

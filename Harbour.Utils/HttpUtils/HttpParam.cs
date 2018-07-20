@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 using System.Text;
 using System.Web;
 
@@ -36,25 +37,16 @@ namespace Harbour.Utils
         /// <para>可以传入Json字符串：{"Key1":"Value1","Key2":"Value2"}</para>
         /// </summary>
         public object GetParam { get; set; }
-
-        private int _timeOut = 5;
         /// <summary>
         /// 请求超时时间。单位：秒。默认值5秒。
         /// </summary>
-        public int TimeOut
-        {
-            get { return _timeOut; }
-            set { _timeOut = value; }
-        }
-        private Encoding _encoding = Encoding.UTF8;
+        public int TimeOut { get; set; } = 5;
+
         /// <summary>
         /// 
         /// </summary>
-        public Encoding Encoding
-        {
-            get { return _encoding; }
-            set { _encoding = value; }
-        }
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
+
         /// <summary>
         /// 
         /// </summary>
@@ -71,28 +63,20 @@ namespace Harbour.Utils
         /// 
         /// </summary>
         public string CertPwd { get; set; }
-        private string _contentType = "application/x-www-form-urlencoded";
         /// <summary>
         /// 
         /// </summary>
-        public string ContentType
-        {
-            get { return _contentType; }
-            set { _contentType = value; }
-        }
-        private string _userAgent = "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Maxthon/4.1.2.4000 Chrome/26.0.1410.43 Safari/537.1";
+        public string ContentType { get; set; } = "application/x-www-form-urlencoded";
+
         /// <summary>
         /// 
         /// </summary>
-        public string UserAgent
-        {
-            get { return _userAgent; }
-            set { _userAgent = value; }
-        }
+        public string UserAgent { get; set; } = "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Maxthon/4.1.2.4000 Chrome/26.0.1410.43 Safari/537.1";
+
         /// <summary>
-        /// 
+        /// FileStream
         /// </summary>
-        public HttpPostedFileBase PostedFile { get; set; }
+        public FileStream FileStream { get; set; }
     }
 
     /// <summary>

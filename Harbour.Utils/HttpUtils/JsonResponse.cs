@@ -1,15 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Harbour.Utils
+﻿namespace Harbour.Utils
 {
     /// <summary>
     /// Json返回值类
     /// </summary>
     public class JsonResponse<T>
     {
+        /// <summary>
+        /// 实例化JsonResponse
+        /// </summary>
+        public JsonResponse() { }
+        /// <summary>
+        /// 实例化JsonResponse
+        /// </summary>
+        /// <param name="Code"></param>
+        /// <param name="Msg"></param>
+        /// <param name="Data"></param>
+        public JsonResponse(string Code, string Msg, T Data)
+        {
+            this.Code = Code;
+            this.Msg = Msg;
+            this.Data = Data;
+        }
+
         /// <summary>
         /// 返回码
         /// </summary>

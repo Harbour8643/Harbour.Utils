@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Web;
 using System.Text.RegularExpressions;
+using System.Web;
 
-namespace Harbour.Utils
+namespace Harbour.Web
 {
     /// <summary>
     /// Http帮助类
     /// </summary>
-    public class HttpHelper
+    public static class HttpHelper
     {
         #region 私有静态属性
         //浏览器列表
@@ -276,7 +276,10 @@ namespace Harbour.Utils
             else
                 ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"].ToString();
 
-            if (string.IsNullOrEmpty(ip) || !ValidateHelper.IsIP(ip))
+            //IP正则表达式
+            Regex _ipregex = new Regex(@"^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$");
+            bool isIP = _ipregex.IsMatch(ip);
+            if (string.IsNullOrEmpty(ip) || !isIP)
                 ip = "127.0.0.1";
             return ip;
         }
@@ -393,58 +396,20 @@ namespace Harbour.Utils
 
         #endregion
 
-        #region 网页中显示内容
         /// <summary>
-        /// 网页中显示内容PDF
+        /// 强转成int 如果失败返回 defaultValue
         /// </summary>
-        /// <param name="filePath">文件绝对路径</param>
-        public static void ShowPDF(string filePath)
+        /// <param name="thisValue"></param>
+        /// <param name="defaultValue">默认值:0</param>
+        /// <returns></returns>
+        static int TryToInt(this object thisValue, int defaultValue = 0)
         {
-            HttpContext.Current.Response.ContentType = "Application/pdf";
-            HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.ApplicationInstance.CompleteRequest();
+            int reval = 0;
+            if (thisValue != null && int.TryParse(thisValue.ToString(), out reval))
+            {
+                return reval;
+            }
+            return defaultValue;
         }
-
-        /// <summary>
-        /// 网页中显示内容Word
-        /// </summary>
-        /// <param name="filePath">文件绝对路径</param>
-        public static void ShowWord(string filePath)
-        {
-            HttpContext.Current.Response.ContentType = "Application/msword";
-            HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.ApplicationInstance.CompleteRequest();
-        }
-        /// <summary>
-        /// 网页中显示内容Excel
-        /// </summary>
-        /// <param name="filePath">文件绝对路径</param>
-        public static void ShowExcel(string filePath)
-        {
-            HttpContext.Current.Response.ContentType = "Application/x-msexcel";
-            HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.ApplicationInstance.CompleteRequest();
-        }
-        /// <summary>
-        /// 网页中显示内容HTML
-        /// </summary>
-        /// <param name="filePath">文件绝对路径</param>
-        public static void ShowHtml(string filePath)
-        {
-            HttpContext.Current.Response.ContentType = "text/HTML";
-            HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.ApplicationInstance.CompleteRequest();
-        }
-        /// <summary>
-        /// 网页中显示内容
-        /// </summary>
-        /// <param name="filePath">文件绝对路径</param>
-        public static void Show(string filePath)
-        {
-            HttpContext.Current.Response.WriteFile(filePath);
-            HttpContext.Current.ApplicationInstance.CompleteRequest();
-        }
-        #endregion
-
     }
 }

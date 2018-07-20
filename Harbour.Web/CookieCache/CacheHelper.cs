@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Caching;
 using System.Collections;
 
-namespace Harbour.Utils
+namespace Harbour.Web
 {
     /// <summary>
     /// Cache缓存帮助类

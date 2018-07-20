@@ -83,21 +83,18 @@ namespace Harbour.Utils
             request.Timeout = 20000;
             request.Credentials = CredentialCache.DefaultCredentials;
             request.KeepAlive = true;
-            var boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
-            var boundaryBytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
+            byte[] boundaryBytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
             request.ContentType = "multipart/form-data; boundary=" + boundary;
-            var formdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\";\r\n\r\n{1}";
-            var buffer = new byte[param.PostedFile.ContentLength];
-            param.PostedFile.InputStream.Read(buffer, 0, buffer.Length);
+            string formdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\";\r\n\r\n{1}";
+            byte[] buffer = buffer = new byte[param.FileStream.Length];
+            param.FileStream.Read(buffer, 0, Convert.ToInt32(param.FileStream.Length));
             var strHeader = "Content-Disposition:application/x-www-form-urlencoded; name=\"{0}\";filename=\"{1}\"\r\nContent-Type:{2}\r\n\r\n";
-            strHeader = string.Format(strHeader,
-                                     "filedata",
-                                     param.PostedFile.FileName,
-                                     param.PostedFile.ContentType);
-            var byteHeader = ASCIIEncoding.ASCII.GetBytes(strHeader);
+            strHeader = string.Format(strHeader, "filedata", param.FileStream.Name, "application/octet-stream");
+            var byteHeader = Encoding.ASCII.GetBytes(strHeader);
             try
             {
-                using (var stream = request.GetRequestStream())
+                using (Stream stream = request.GetRequestStream())
                 {
                     if (param.PostParam != null)
                     {
@@ -110,17 +107,17 @@ namespace Harbour.Utils
                         {
                             postParamString = JsonConvert.SerializeObject(param.PostParam);
                         }
-                        var bs = param.Encoding.GetBytes(postParamString);
+                        byte[] bs = param.Encoding.GetBytes(postParamString);
                         stream.Write(bs, 0, bs.Length);
                     }
                     stream.Write(boundaryBytes, 0, boundaryBytes.Length);
                     stream.Write(byteHeader, 0, byteHeader.Length);
                     stream.Write(buffer, 0, buffer.Length);
-                    var trailer = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+                    byte[] trailer = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
                     stream.Write(trailer, 0, trailer.Length);
                     stream.Close();
                 }
-                var response = (HttpWebResponse)request.GetResponse();
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 var result = "";
                 using (var reader = new StreamReader(response.GetResponseStream()))
                 {
@@ -162,12 +159,12 @@ namespace Harbour.Utils
                 param.Url = string.Format("{0}?{1}", param.Url, getParamSb.ToString().TrimEnd('&'));
             }
             #endregion
-            var r = WebRequest.Create(param.Url) as HttpWebRequest;
+            HttpWebRequest httpWebRequest = WebRequest.Create(param.Url) as HttpWebRequest;
             if (!string.IsNullOrWhiteSpace(param.CertPath) && !string.IsNullOrWhiteSpace(param.CertPwd))
             {
                 ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
                 var cer = new X509Certificate2(param.CertPath, param.CertPwd, X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.MachineKeySet);
-                r.ClientCertificates.Add(cer);
+                httpWebRequest.ClientCertificates.Add(cer);
                 #region 暂时不要的
                 //ServicePointManager.Expect100Continue = true;
                 //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
@@ -180,12 +177,12 @@ namespace Harbour.Utils
                 //req.Headers.Add("x-requested-with", "XMLHttpRequest");
                 #endregion
             }
-            r.Timeout = param.TimeOut * 1000;
-            r.UserAgent = param.UserAgent;
-            r.Method = param.Method ?? "POST";
-            r.Referer = param.Referer;
-            r.CookieContainer = param.CookieContainer;
-            r.ContentType = param.ContentType;
+            httpWebRequest.Timeout = param.TimeOut * 1000;
+            httpWebRequest.UserAgent = param.UserAgent;
+            httpWebRequest.Method = param.Method ?? "POST";
+            httpWebRequest.Referer = param.Referer;
+            httpWebRequest.CookieContainer = param.CookieContainer;
+            httpWebRequest.ContentType = param.ContentType;
             if (param.PostParam != null)
             {
                 var postParamString = "";
@@ -202,14 +199,14 @@ namespace Harbour.Utils
                 {
                     postParamString = JsonConvert.SerializeObject(param.PostParam);
                 }
-                var bs = param.Encoding.GetBytes(postParamString);
-                r.ContentLength = bs.Length;
-                using (var rs = r.GetRequestStream())
+                byte[] bs = param.Encoding.GetBytes(postParamString);
+                httpWebRequest.ContentLength = bs.Length;
+                using (Stream rs = httpWebRequest.GetRequestStream())
                 {
                     rs.Write(bs, 0, bs.Length);
                 }
             }
-            return r.GetResponse().GetResponseStream();
+            return httpWebRequest.GetResponse().GetResponseStream();
         }
         /// <summary>
         /// 

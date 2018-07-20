@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Xml.Serialization;
-using System.Xml;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
-namespace Harbour.Utils
+namespace Harbour.Web
 {
     /// <summary>
     /// IO帮助类

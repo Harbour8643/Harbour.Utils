@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Web;
 
-namespace Harbour.Utils
+namespace Harbour.Web
 {
     /// <summary>
     /// 文件下载类
@@ -529,7 +530,25 @@ namespace Harbour.Utils
         public static string GetUploadFileName(string FileName)
         {
             string extension = Path.GetExtension(FileName);
-            return StringHelper.TrimStart(extension, ".") + DateTime.Now.ToString("yyMMddHHmmssfffffff") + extension;
+            return TrimStart(extension, ".") + DateTime.Now.ToString("yyMMddHHmmssfffffff") + extension;
+        }
+
+        /// <summary>
+        /// 移除前导字符串
+        /// </summary>
+        /// <param name="sourceStr">源字符串</param>
+        /// <param name="trimStr">移除字符串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns></returns>
+        public static string TrimStart(string sourceStr, string trimStr, bool ignoreCase = true)
+        {
+            if (string.IsNullOrEmpty(sourceStr))
+                return string.Empty;
+
+            if (string.IsNullOrEmpty(trimStr) || !sourceStr.StartsWith(trimStr, ignoreCase, CultureInfo.CurrentCulture))
+                return sourceStr;
+
+            return sourceStr.Remove(0, trimStr.Length);
         }
 
         #endregion

@@ -105,29 +105,44 @@ namespace Harbour.Utils
             }
             return list;
         }
-
         private static Action<T, object> GetSetter<T>(PropertyInfo property)
         {
             Action<T, object> result = null;
             Type type = typeof(T);
             string key = type.AssemblyQualifiedName + "_set_" + property.Name;
-            if (CacheHelper.GetCache(key) == null)
-            {
-                //创建 对实体 属性赋值的expression
-                ParameterExpression parameter = Expression.Parameter(type, "t");
-                ParameterExpression value = Expression.Parameter(typeof(object), "propertyValue");
-                MethodInfo setter = type.GetMethod("set_" + property.Name);
-                MethodCallExpression call = Expression.Call(parameter, setter, Expression.Convert(value, property.PropertyType));
-                var lambda = Expression.Lambda<Action<T, object>>(call, parameter, value);
-                result = lambda.Compile();
-                CacheHelper.SetCache(key, result, TimeSpan.FromMinutes(60));
-            }
-            else
-            {
-                result = CacheHelper.GetCache<Action<T, object>>(key);
-            }
+
+            //创建 对实体 属性赋值的expression
+            ParameterExpression parameter = Expression.Parameter(type, "t");
+            ParameterExpression value = Expression.Parameter(typeof(object), "propertyValue");
+            MethodInfo setter = type.GetMethod("set_" + property.Name);
+            MethodCallExpression call = Expression.Call(parameter, setter, Expression.Convert(value, property.PropertyType));
+            var lambda = Expression.Lambda<Action<T, object>>(call, parameter, value);
+            result = lambda.Compile();
             return result;
         }
+
+        //private static Action<T, object> GetSetter<T>(PropertyInfo property)
+        //{
+        //    Action<T, object> result = null;
+        //    Type type = typeof(T);
+        //    string key = type.AssemblyQualifiedName + "_set_" + property.Name;
+        //    if (CacheHelper.GetCache(key) == null)
+        //    {
+        //        //创建 对实体 属性赋值的expression
+        //        ParameterExpression parameter = Expression.Parameter(type, "t");
+        //        ParameterExpression value = Expression.Parameter(typeof(object), "propertyValue");
+        //        MethodInfo setter = type.GetMethod("set_" + property.Name);
+        //        MethodCallExpression call = Expression.Call(parameter, setter, Expression.Convert(value, property.PropertyType));
+        //        var lambda = Expression.Lambda<Action<T, object>>(call, parameter, value);
+        //        result = lambda.Compile();
+        //        CacheHelper.SetCache(key, result, TimeSpan.FromMinutes(60));
+        //    }
+        //    else
+        //    {
+        //        result = CacheHelper.GetCache<Action<T, object>>(key);
+        //    }
+        //    return result;
+        //}
         /*
         private static Action<T, object> GetSetter<T>(PropertyInfo property)
         {
@@ -136,7 +151,7 @@ namespace Harbour.Utils
             string key = type.AssemblyQualifiedName + "_set_" + property.Name;
             if (HttpRuntime.Cache.Get(key) == null)
             {
-                //创建 对实体 属性赋值的expression
+                创建 对实体 属性赋值的expression
                 ParameterExpression parameter = Expression.Parameter(type, "t");
                 ParameterExpression value = Expression.Parameter(typeof(object), "propertyValue");
                 MethodInfo setter = type.GetMethod("set_" + property.Name);

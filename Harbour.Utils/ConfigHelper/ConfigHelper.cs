@@ -13,7 +13,7 @@ namespace Harbour.Utils
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static string GetConnectionString(string key)
+        public static string GetConnectString(string key)
         {
             return ConfigurationManager.ConnectionStrings[key].ToString();
         }
@@ -25,7 +25,7 @@ namespace Harbour.Utils
         /// <param name="key">AppSettings中的key</param>
         /// <param name="defaultValue">默认返回值</param>
         /// <returns>找到与key相应的值，则返回该值，否则返回默认值</returns>
-        public static string GetAppString(string key, string defaultValue = null)
+        public static string GetAppSetString(string key, string defaultValue = null)
         {
             string keyValue = ConfigurationManager.AppSettings[key];
             if (!string.IsNullOrEmpty(keyValue))
@@ -41,7 +41,7 @@ namespace Harbour.Utils
         /// <param name="key">AppSettings中的key</param>
         /// <param name="defaultValue">默认返回值</param
         /// <returns>找到与key相应的值，则返回该值，否则返回默认值</returns>
-        public static int GetAppInt(string key, int defaultValue = 0)
+        public static int GetAppSetInt(string key, int defaultValue = 0)
         {
             string keyValue = ConfigurationManager.AppSettings[key];
             int tempValue;
@@ -58,7 +58,7 @@ namespace Harbour.Utils
         /// <param name="key">AppSettings中的key</param>
         /// <param name="defaultValue">默认返回值</param
         /// <returns>找到与key相应的值，则返回该值，否则返回默认值</returns>
-        public static bool GetAppBool(string key, bool defaultValue = false)
+        public static bool GetAppSetBool(string key, bool defaultValue = false)
         {
             string keyValue = ConfigurationManager.AppSettings[key];
             bool tempValue;

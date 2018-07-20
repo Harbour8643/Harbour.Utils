@@ -64,8 +64,8 @@ namespace Harbour.Utils
         {
             DESCryptoServiceProvider des = new DESCryptoServiceProvider();
             byte[] inputByteArray = Encod.GetBytes(Text);
-            des.Key = Encod.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(Key, "md5").Substring(0, 8));
-            des.IV = Encod.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(Key, "md5").Substring(0, 8));
+            des.Key = Encod.GetBytes(Key);
+            des.IV = Encod.GetBytes(IV);
             byte[] cipherBytes = null;
             using (MemoryStream ms = new MemoryStream())
             {
@@ -131,11 +131,10 @@ namespace Harbour.Utils
         {
             DESCryptoServiceProvider des = new DESCryptoServiceProvider();
             byte[] inputByteArray = Convert.FromBase64String(Text);
-
-            des.Key = Encod.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(Key, "md5").Substring(0, 8));
-            des.IV = Encod.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(Key, "md5").Substring(0, 8));
+            des.Key = Encod.GetBytes(Key);
+            des.IV = Encod.GetBytes(IV);
             byte[] cipherBytes = null;
-            using (MemoryStream ms = new System.IO.MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
                 using (CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write))
                 {
