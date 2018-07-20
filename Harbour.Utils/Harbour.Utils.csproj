@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigHelper\ConfigHelper.cs" />
+    <Compile Include="HarbourHelper\ConfigHelper.cs" />
     <Compile Include="DEncrypt\AESEncrypt.cs" />
     <Compile Include="DEncrypt\DESEncrypt.cs" />
     <Compile Include="DEncrypt\HashEncode.cs" />
@@ -62,15 +62,16 @@
     <Compile Include="HttpUtils\HttpUtils.cs" />
     <Compile Include="HttpUtils\JsonResponse.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
-    <Compile Include="IEqualityComparer\ComparisonHelper.cs" />
+    <Compile Include="HarbourHelper\ComparisonHelper.cs" />
     <Compile Include="Extensions\IQueryableExtensions.cs" />
-    <Compile Include="LogHelpers\LogHelpers.cs" />
+    <Compile Include="HarbourHelper\LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomHelper\RandomHelper.cs" />
-    <Compile Include="TypeParse\StringHelper.cs" />
+    <Compile Include="HarbourHelper\RandomHelper.cs" />
+    <Compile Include="HarbourHelper\StringHelper.cs" />
     <Compile Include="Extensions\TypeParseExtensions.cs" />
-    <Compile Include="ValidateHelper\ValidateHelper.cs" />
-    <Compile Include="VerifyCodeHelper\VerifyCode.cs" />
+    <Compile Include="HarbourHelper\ValidateHelper.cs" />
+    <Compile Include="HarbourHelper\VerifyCodeHelper.cs" />
+    <Compile Include="HarbourHelper\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

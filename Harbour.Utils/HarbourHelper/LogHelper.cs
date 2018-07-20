@@ -10,7 +10,7 @@ namespace Harbour.Utils
     /// 如果不传入path参数，默认是在~/Log/下生成日志文件，
     /// 也可以在AppSettings节点配置Har.LogHelper.Path来设置默认日志文件路径，格式：D:\\File\\Log\\。
     /// </summary>
-    public class LogHelpers
+    public class LogHelper
     {
         private static readonly object Olock = new object();
         private enum LogHelperType

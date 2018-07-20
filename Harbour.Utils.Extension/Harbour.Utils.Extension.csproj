@@ -28,7 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Harbour.Utils.Extension.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Harbour.Utils.Extension.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Harbour.ico</ApplicationIcon>

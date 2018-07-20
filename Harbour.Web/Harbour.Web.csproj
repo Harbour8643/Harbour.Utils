@@ -28,6 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Harbour.Web.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Harbour.ico</ApplicationIcon>
@@ -44,8 +45,7 @@
     <Compile Include="CookieCache\CacheHelper.cs" />
     <Compile Include="CookieCache\CookieHelper.cs" />
     <Compile Include="HttpUtils\HttpHelper.cs" />
-    <Compile Include="IOHelper\FileHelper.cs" />
-    <Compile Include="IOHelper\IOHelper.cs" />
+    <Compile Include="FileHelper\FileHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

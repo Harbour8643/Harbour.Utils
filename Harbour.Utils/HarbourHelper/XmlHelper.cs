@@ -4,12 +4,12 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Harbour.Web
+namespace Harbour.Utils
 {
     /// <summary>
-    /// IO帮助类
+    /// Xml帮助类
     /// </summary>
-    public class IOHelper
+    public class XmlHelper
     {
         /// <summary>
         /// XML序列化
@@ -20,7 +20,6 @@ namespace Harbour.Web
         public static bool XmlSerialize(object obj, string filePath)
         {
             bool result = false;
-
             FileStream fs = null;
             try
             {

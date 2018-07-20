@@ -10,7 +10,7 @@ namespace Harbour.Utils
     /// <summary>
     /// 验证码类
     /// </summary>
-    public class VerifyCode
+    public class VerifyCodeHelper
     {
         #region setting
         /// <summary>
@@ -67,7 +67,7 @@ namespace Harbour.Utils
         /// <summary>
         /// 初始化
         /// </summary>
-        public VerifyCode()
+        public VerifyCodeHelper()
         {
             this.GetVerifyCodeText();
         }
