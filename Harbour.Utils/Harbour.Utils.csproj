@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\IQueryExtensions.cs" />
     <Compile Include="HarbourHelper\ConfigHelper.cs" />
     <Compile Include="DEncrypt\AESEncrypt.cs" />
     <Compile Include="DEncrypt\DESEncrypt.cs" />
