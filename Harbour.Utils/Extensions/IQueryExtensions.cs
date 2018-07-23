@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 
 namespace Harbour.Utils
 {
+    /*
     /// <summary>
     /// IQueryExtensions，待整合
     /// </summary>
@@ -170,4 +171,5 @@ namespace Harbour.Utils
         }
 
     }
+    */
 }
