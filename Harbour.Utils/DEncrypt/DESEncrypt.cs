@@ -62,15 +62,13 @@ namespace Harbour.Utils
         /// <returns>密文Base64编码文本</returns> 
         public static string Encrypt(string Text, string Key, string IV, Encoding Encod)
         {
-            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
-            byte[] inputByteArray = Encod.GetBytes(Text);
-            des.Key = Encod.GetBytes(Key);
-            des.IV = Encod.GetBytes(IV);
+            DESCryptoServiceProvider des = GetDesscsp(Key, IV, Encod);
             byte[] cipherBytes = null;
             using (MemoryStream ms = new MemoryStream())
             {
                 using (CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write))
                 {
+                    byte[] inputByteArray = Encod.GetBytes(Text);
                     cs.Write(inputByteArray, 0, inputByteArray.Length);
                     cs.FlushFinalBlock();
                     cipherBytes = ms.ToArray();
@@ -129,15 +127,13 @@ namespace Harbour.Utils
         /// <returns>明文</returns>
         public static string Decrypt(string Text, string Key, string IV, Encoding Encod)
         {
-            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
-            byte[] inputByteArray = Convert.FromBase64String(Text);
-            des.Key = Encod.GetBytes(Key);
-            des.IV = Encod.GetBytes(IV);
+            DESCryptoServiceProvider des = GetDesscsp(Key, IV, Encod);
             byte[] cipherBytes = null;
             using (MemoryStream ms = new MemoryStream())
             {
                 using (CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write))
                 {
+                    byte[] inputByteArray = Convert.FromBase64String(Text);
                     cs.Write(inputByteArray, 0, inputByteArray.Length);
                     cs.FlushFinalBlock();
                     cipherBytes = ms.ToArray();
@@ -150,6 +146,13 @@ namespace Harbour.Utils
 
         #endregion
 
-
+        private static DESCryptoServiceProvider GetDesscsp(string Key, string IV, Encoding Encod)
+        {
+            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+            //密钥长度只能是8位
+            des.Key = Encod.GetBytes(MD5Encrypt.MD5(Key).Substring(0, 8));
+            des.IV = Encod.GetBytes(MD5Encrypt.MD5(IV).Substring(0, 8));
+            return des;
+        }
     }
 }
