@@ -34,25 +34,33 @@
     <ApplicationIcon>Harbour.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CookieCache\CacheHelper.cs" />
-    <Compile Include="CookieCache\CookieHelper.cs" />
-    <Compile Include="HttpUtils\HttpHelper.cs" />
-    <Compile Include="FileHelper\FileHelper.cs" />
+    <Compile Include="..\..\Harbour.Web\CookieCache\CacheHelper.cs">
+      <Link>CookieCache\CacheHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Web\CookieCache\CookieHelper.cs">
+      <Link>CookieCache\CookieHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Web\FileHelper\FileHelper.cs">
+      <Link>FileHelper\FileHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Web\HttpUtils\HttpHelper.cs">
+      <Link>HttpUtils\HttpHelper.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Content Include="Harbour.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Harbour.ico" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

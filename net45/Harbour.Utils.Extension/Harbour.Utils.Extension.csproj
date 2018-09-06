@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Harbour.Utils.Extension</RootNamespace>
     <AssemblyName>Harbour.Utils.Extension</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Harbour.Utils.Extension.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Harbour.ico</ApplicationIcon>
@@ -43,16 +46,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IOHelper\CsvHelper.cs" />
-    <Compile Include="IOHelper\IOHelper.cs" />
-    <Compile Include="IOHelper\XMLHelper.cs" />
+    <Compile Include="..\..\Harbour.Utils.Extension\IOHelper\CsvHelper.cs">
+      <Link>IOHelper\CsvHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils.Extension\IOHelper\IOHelper.cs">
+      <Link>IOHelper\IOHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils.Extension\IOHelper\XMLHelper.cs">
+      <Link>IOHelper\XMLHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils.Extension\人民币\RMB.cs">
+      <Link>人民币\RMB.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils.Extension\农历日历\CNDate.cs">
+      <Link>农历日历\CNDate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils.Extension\图片\ImageHelper.cs">
+      <Link>图片\ImageHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils.Extension\时间帮助类\DateTimeHelper.cs">
+      <Link>时间帮助类\DateTimeHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils.Extension\条形码\BarCodeToHTML.cs">
+      <Link>条形码\BarCodeToHTML.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils.Extension\汉字拼音\EcanConvertToCh.cs">
+      <Link>汉字拼音\EcanConvertToCh.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="人民币\RMB.cs" />
-    <Compile Include="农历日历\CNDate.cs" />
-    <Compile Include="图片\ImageHelper.cs" />
-    <Compile Include="时间帮助类\DateTimeHelper.cs" />
-    <Compile Include="条形码\BarCodeToHTML.cs" />
-    <Compile Include="汉字拼音\EcanConvertToCh.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Harbour.ico" />

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5F58A6B8-2EA0-4C93-BE4A-83305F1C1252}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Harbour.Utils</RootNamespace>
+    <AssemblyName>Harbour.Utils</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Harbour.Utils.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Harbour.Utils.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Harbour.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Harbour.Utils\DEncrypt\AESEncrypt.cs">
+      <Link>DEncrypt\AESEncrypt.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\DEncrypt\DESEncrypt.cs">
+      <Link>DEncrypt\DESEncrypt.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\DEncrypt\HashEncode.cs">
+      <Link>DEncrypt\HashEncode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\DEncrypt\MD5.cs">
+      <Link>DEncrypt\MD5.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\DEncrypt\RSACryption.cs">
+      <Link>DEncrypt\RSACryption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\EntityConverter\EmitEntityConverter.cs">
+      <Link>EntityConverter\EmitEntityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\EntityConverter\EntityConverter.cs">
+      <Link>EntityConverter\EntityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Extensions\EnumExtensions.cs">
+      <Link>Extensions\EnumExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Extensions\IEnumerableExtensions.cs">
+      <Link>Extensions\IEnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Extensions\IQueryableExtensions.cs">
+      <Link>Extensions\IQueryableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Extensions\IQueryExtensions.cs">
+      <Link>Extensions\IQueryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Extensions\IsWhatExtensions.cs">
+      <Link>Extensions\IsWhatExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Extensions\LogicExtenions.cs">
+      <Link>Extensions\LogicExtenions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Extensions\TypeParseExtensions.cs">
+      <Link>Extensions\TypeParseExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HarbourHelper\ComparisonHelper.cs">
+      <Link>HarbourHelper\ComparisonHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HarbourHelper\ConfigHelper.cs">
+      <Link>HarbourHelper\ConfigHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HarbourHelper\LogHelper.cs">
+      <Link>HarbourHelper\LogHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HarbourHelper\RandomHelper.cs">
+      <Link>HarbourHelper\RandomHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HarbourHelper\StringHelper.cs">
+      <Link>HarbourHelper\StringHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HarbourHelper\ValidateHelper.cs">
+      <Link>HarbourHelper\ValidateHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HarbourHelper\VerifyCodeHelper.cs">
+      <Link>HarbourHelper\VerifyCodeHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HarbourHelper\XmlHelper.cs">
+      <Link>HarbourHelper\XmlHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HttpUtils\HttpParam.cs">
+      <Link>HttpUtils\HttpParam.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HttpUtils\HttpUtils.cs">
+      <Link>HttpUtils\HttpUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HttpUtils\JsonResponse.cs">
+      <Link>HttpUtils\JsonResponse.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Harbour.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

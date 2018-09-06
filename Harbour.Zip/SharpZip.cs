@@ -1,4 +1,8 @@
-﻿using ICSharpCode.SharpZipLib.Checksums;
+﻿#if NET40
+using ICSharpCode.SharpZipLib.Checksums;
+#elif NET45
+using ICSharpCode.SharpZipLib.Checksum;
+#endif
 using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.IO;
