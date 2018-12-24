@@ -267,7 +267,11 @@ namespace Harbour.Utils
         {
             return d1.ToString("yyyy-MM-dd") == d2.ToString("yyyy-MM-dd");
         }
-
+        /// <summary>
+        /// 时间格式转化
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
         public static string DateStringFromNow(DateTime dt)
         {
             TimeSpan span = DateTime.Now - dt;

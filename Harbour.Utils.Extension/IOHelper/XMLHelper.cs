@@ -11,21 +11,30 @@ namespace Harbour.Utils
     public class XMLHelper
     {
         #region 构造函数
-        
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public XMLHelper()
         { }
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="strPath"></param>
         public XMLHelper(string strPath)
         {
             this._XMLPath = strPath;
         }
-        
+
         #endregion
 
         #region 公有属性
 
         private string _XMLPath;
 
+        /// <summary>
+        /// 路径
+        /// </summary>
         public string XMLPath
         {
             get { return this._XMLPath; }
@@ -37,7 +46,6 @@ namespace Harbour.Utils
         /// <summary>
         /// 导入XML文件
         /// </summary>
-        /// <param name="XMLPath">XML文件路径</param>
         private XmlDocument XMLLoad()
         {
             string XMLFile = XMLPath;
@@ -55,7 +63,7 @@ namespace Harbour.Utils
         /// <summary>
         /// 导入XML文件
         /// </summary>
-        /// <param name="XMLPath">XML文件路径</param>
+        /// <param name="strPath">XML文件路径</param>
         private static XmlDocument XMLLoad(string strPath)
         {
             XmlDocument xmldoc = new XmlDocument();
@@ -112,7 +120,6 @@ namespace Harbour.Utils
         /// </summary>
         /// <param name="path">路径</param>
         /// <param name="node">节点</param>
-        /// <param name="attribute">属性名，非空时返回该属性值，否则返回串联值</param>
         /// 使用示列:
         /// XMLProsess.Read(path, "/Node", "")
         /// XMLProsess.Read(path, "/Node/Element[@Attribute='Name']")
@@ -470,8 +477,6 @@ namespace Harbour.Utils
         /// </summary>
         /// <param name="path">路径</param>
         /// <param name="node">节点</param>
-        /// <param name="attribute">属性名，非空时删除该节点属性值，否则删除节点值</param>
-        /// <param name="value">值</param>
         /// 使用示列:
         /// XMLProsess.Delete(path, "/Node", "")
         /// XMLProsess.Delete(path, "/Node", "Attribute")
@@ -493,7 +498,6 @@ namespace Harbour.Utils
         /// <param name="path">路径</param>
         /// <param name="node">节点</param>
         /// <param name="attribute">属性名，非空时删除该节点属性值，否则删除节点值</param>
-        /// <param name="value">值</param>
         /// 使用示列:
         /// XMLProsess.Delete(path, "/Node", "")
         /// XMLProsess.Delete(path, "/Node", "Attribute")
@@ -535,11 +539,12 @@ namespace Harbour.Utils
                 return false;
             }
         }
-
         /// <summary>
         /// 通过删除DataSet中指定索引行，重写XML以实现删除指定行
         /// </summary>
+        /// <param name="strXmlPath">路径</param>
         /// <param name="iDeleteRow">要删除的行在DataSet中的Index值</param>
+        /// <returns></returns>
         public static bool DeleteXmlRowByIndex(string strXmlPath, int iDeleteRow)
         {
             try
