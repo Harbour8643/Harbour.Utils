@@ -29,7 +29,6 @@ namespace Harbour.Utils
         /// <summary>
         /// 根据表达式的值,true返回trueValue,false返回string.Empty;
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="thisValue"></param>
         /// <param name="trueValue">值为true返回 trueValue</param>
         /// <returns></returns>
@@ -40,7 +39,6 @@ namespace Harbour.Utils
         /// <summary>
         /// 根据表达式的值,true返回trueValue,false返回0
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="thisValue"></param>
         /// <param name="trueValue">值为true返回 trueValue</param>
         /// <returns></returns>

@@ -39,7 +39,7 @@ namespace Harbour.Utils
         /// 将配置信息转化为整型
         /// </summary>
         /// <param name="key">AppSettings中的key</param>
-        /// <param name="defaultValue">默认返回值</param
+        /// <param name="defaultValue">默认返回值</param>
         /// <returns>找到与key相应的值，则返回该值，否则返回默认值</returns>
         public static int GetAppSetInt(string key, int defaultValue = 0)
         {
@@ -56,7 +56,7 @@ namespace Harbour.Utils
         /// 将配置信息转化为布尔型
         /// </summary>
         /// <param name="key">AppSettings中的key</param>
-        /// <param name="defaultValue">默认返回值</param
+        /// <param name="defaultValue">默认返回值</param>
         /// <returns>找到与key相应的值，则返回该值，否则返回默认值</returns>
         public static bool GetAppSetBool(string key, bool defaultValue = false)
         {
@@ -88,7 +88,7 @@ namespace Harbour.Utils
                 config.Save(ConfigurationSaveMode.Modified);
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }

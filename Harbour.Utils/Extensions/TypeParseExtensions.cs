@@ -102,7 +102,6 @@ namespace Harbour.Utils
         /// 强转成DateTime 如果失败返回 DateTime.MinValue
         /// </summary>
         /// <param name="thisValue"></param>
-        /// <param name="defaultValue">默认值:DateTime.MinValue</param>
         /// <returns></returns>
         public static DateTime TryToDate(this object thisValue)
         {
