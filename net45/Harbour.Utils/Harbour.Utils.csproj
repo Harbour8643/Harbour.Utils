@@ -117,6 +117,9 @@
     <Compile Include="..\..\Harbour.Utils\HttpUtils\HttpParam.cs">
       <Link>HttpUtils\HttpParam.cs</Link>
     </Compile>
+	 <Compile Include="..\..\Harbour.Utils\HttpUtils\HttpPostFileParam.cs">
+      <Link>HttpUtils\HttpPostFileParam.cs</Link>
+    </Compile>
     <Compile Include="..\..\Harbour.Utils\HttpUtils\HttpUtils.cs">
       <Link>HttpUtils\HttpUtils.cs</Link>
     </Compile>
