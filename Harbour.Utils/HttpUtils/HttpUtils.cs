@@ -203,7 +203,7 @@ namespace Harbour.Utils
         }
 
         /// <summary>
-        /// 文件上传至远程服务器
+        /// Http请求
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
@@ -249,7 +249,6 @@ namespace Harbour.Utils
                         httpWebRequest.Headers.Add(arr[0], arr[1]);
                 }
             }
-
             httpWebRequest.Method = param.Method;
             httpWebRequest.UserAgent = param.UserAgent;
             httpWebRequest.Accept = "*/*";
@@ -257,12 +256,14 @@ namespace Harbour.Utils
             httpWebRequest.CookieContainer = param.CookieContainer;
             httpWebRequest.ContentType = $"{param.ContentType}";
 
+            //如果是POST请求，处理请求参数
             if ("POST".Equals(param.Method))
             {
                 MemoryStream memoryStream = new MemoryStream();
 
                 if (param.ContentType.Contains("multipart/form-data"))
                 {
+                    //分隔符、ContentType
                     string boundary = Guid.NewGuid().ToString().Replace("-", "");
                     httpWebRequest.ContentType = $"multipart/form-data; boundary={boundary}";
                     //Post的参数
@@ -296,12 +297,12 @@ namespace Harbour.Utils
                             byte[] fileByte = uploadFile.FileStream.TryToBytes();
                             memoryStream.Write(fileByte, 0, fileByte.Length);
                         }
-
-                        if (memoryStream.Length > 0)
-                        {
-                            byte[] endBoundary = param.Encoding.GetBytes($"--{boundary}--\r\n");
-                            memoryStream.Write(endBoundary, 0, endBoundary.Length);
-                        }
+                    }
+                    //添加结束分隔符
+                    if (memoryStream.Length > 0)
+                    {
+                        byte[] endBoundary = param.Encoding.GetBytes($"--{boundary}--\r\n");
+                        memoryStream.Write(endBoundary, 0, endBoundary.Length);
                     }
                 }
                 else
@@ -321,6 +322,7 @@ namespace Harbour.Utils
                     }
                 }
             }
+
             return httpWebRequest.GetResponse().GetResponseStream();
         }
 
