@@ -12,38 +12,6 @@ namespace Harbour.Utils
     /// </summary>
     public class HttpUtils
     {
-
-        #region Get Post Stream
-        /// <summary>
-        /// Get Stream
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static Stream GetStream(string url)
-        {
-            return RequestStream(new HttpParam()
-            {
-                Url = url,
-                Method = "GET"
-            });
-        }
-        /// <summary>
-        /// Post Stream
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="postParam"></param>
-        /// <returns></returns>
-        public static Stream PostStream(string url, NameValueCollection postParam = null)
-        {
-            return RequestStream(new HttpParam()
-            {
-                Url = url,
-                Method = "POST",
-                RequestParameters = postParam
-            });
-        }
-        #endregion
-
         #region Get请求
         /// <summary>
         /// 
@@ -53,7 +21,12 @@ namespace Harbour.Utils
         public static string Get(HttpParam param)
         {
             param.Method = "GET";
-            return RequestString(param);
+            var result = "";
+            using (var reader = new StreamReader(HttpRequestStream(param), param.Encoding))
+            {
+                result = reader.ReadToEnd();
+            }
+            return result;
         }
         /// <summary>
         /// 
@@ -75,6 +48,34 @@ namespace Harbour.Utils
         public static JsonResponse<T> GetJR<T>(HttpParam param)
         {
             return Get<JsonResponse<T>>(param);
+        }
+
+
+        /// <summary>
+        /// Get WebResponse
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static WebResponse GetResponse(string url)
+        {
+            return HttpRequestResponse(new HttpParam()
+            {
+                Url = url,
+                Method = "GET"
+            });
+        }
+        /// <summary>
+        /// Get Stream
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static Stream GetStream(string url)
+        {
+            return HttpRequestStream(new HttpParam()
+            {
+                Url = url,
+                Method = "GET"
+            });
         }
 
         /// <summary>
@@ -121,8 +122,12 @@ namespace Harbour.Utils
         public static string Post(HttpParam param)
         {
             param.Method = "POST";
-            var str = RequestString(param);
-            return str;
+            var result = "";
+            using (var reader = new StreamReader(HttpRequestStream(param), param.Encoding))
+            {
+                result = reader.ReadToEnd();
+            }
+            return result;
         }
         /// <summary>
         /// 
@@ -146,6 +151,38 @@ namespace Harbour.Utils
         {
             return Post<JsonResponse<T>>(param);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postParam"></param>
+        /// <returns></returns>
+        public static WebResponse PostResponse(string url, NameValueCollection postParam = null)
+        {
+            return HttpRequestResponse(new HttpParam()
+            {
+                Url = url,
+                Method = "POST",
+                RequestParameters = postParam
+            });
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postParam"></param>
+        /// <returns></returns>
+        public static Stream PostStream(string url, NameValueCollection postParam = null)
+        {
+            return HttpRequestStream(new HttpParam()
+            {
+                Url = url,
+                Method = "POST",
+                RequestParameters = postParam
+            });
+        }
+
 
         /// <summary>
         /// 
@@ -189,25 +226,20 @@ namespace Harbour.Utils
 
         #region Http相关
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="param"></param>
-        public static string RequestString(HttpParam param)
-        {
-            var result = "";
-            using (var reader = new StreamReader(RequestStream(param), param.Encoding))
-            {
-                result = reader.ReadToEnd();
-            }
-            return result;
-        }
-
-        /// <summary>
         /// Http请求
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public static Stream RequestStream(HttpParam param)
+        public static Stream HttpRequestStream(HttpParam param)
+        {
+            return HttpRequestResponse(param).GetResponseStream();
+        }
+        /// <summary>
+        /// 获取 WebResponse
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static WebResponse HttpRequestResponse(HttpParam param)
         {
             string url = param.Url;
 
@@ -270,7 +302,7 @@ namespace Harbour.Utils
                     if (param.RequestParameters != null && param.RequestParameters.Count > 0)
                     {
                         string[] nameVals = NameValueCollectionFormat(param.RequestParameters);
-                        string _textFormdataTemplate = "--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\"" + "\r\n\r\n{1}\r\n";
+                        string _textFormdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\"" + "\r\n\r\n{1}";
                         string postParamStr = "";
                         foreach (string nameVal in nameVals)
                         {
@@ -301,7 +333,7 @@ namespace Harbour.Utils
                     //添加结束分隔符
                     if (memoryStream.Length > 0)
                     {
-                        byte[] endBoundary = param.Encoding.GetBytes($"--{boundary}--\r\n");
+                        byte[] endBoundary = param.Encoding.GetBytes($"\r\n--{boundary}--\r\n");
                         memoryStream.Write(endBoundary, 0, endBoundary.Length);
                     }
                 }
@@ -322,8 +354,7 @@ namespace Harbour.Utils
                     }
                 }
             }
-
-            return httpWebRequest.GetResponse().GetResponseStream();
+            return httpWebRequest.GetResponse();
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using System.Net;
 
 namespace Harbour.UtilsTest
 {
@@ -9,8 +10,8 @@ namespace Harbour.UtilsTest
     {
         static void Main(string[] args)
         {
-
-            //UploadFiles();
+            //View();
+            //Login();
 
             //UploadFiles();
 
@@ -31,7 +32,23 @@ namespace Harbour.UtilsTest
             TypeParseExtTest.TryToJsonTest();
             TypeParseExtTest.TryToStringArrayTest();
         }
+        static void View()
+        {
+            string url = "http://39.155.251.32:8643/file/view/HStoDefault/DomDefault/daa/ds/150426001201-4.jpg?fda=1321312";
+            WebResponse webResponse= HttpUtils.GetResponse(url);
+            Stream stream = webResponse.GetResponseStream();
 
+            string path = "D:\\father.jpg";
+            FileStream os = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+            byte[] buff = new byte[512];
+            int c = 0;
+            while ((c = stream.Read(buff, 0, 512)) > 0)
+            {
+                os.Write(buff, 0, c);
+            }
+            os.Close();
+            stream.Close();
+        }
         static void UploadFiles()
         {
             //string url = "http://localhost:8643/file/putfiles";
