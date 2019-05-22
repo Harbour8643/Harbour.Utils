@@ -340,12 +340,12 @@ namespace Harbour.Utils
             {
                 //ServicePointManager.SecurityProtocol = spt; //不指定,使之自动协商/适应, 避免指定的版本与服务器不一样反而连不上
                 ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true; //总是接受
-                request = WebRequest.CreateHttp(url);
+                request = WebRequest.Create(url) as HttpWebRequest;
                 //request.ProtocolVersion = HttpVersion.Version10;
             }
             else
             {
-                request = WebRequest.CreateHttp(url);
+                request = WebRequest.Create(url) as HttpWebRequest;
             }
             return request;
         }

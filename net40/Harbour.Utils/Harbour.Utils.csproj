@@ -118,6 +118,9 @@
     <Compile Include="..\..\Harbour.Utils\HttpUtils\HttpUtils.cs">
       <Link>HttpUtils\HttpUtils.cs</Link>
     </Compile>
+	<Compile Include="..\..\Harbour.Utils\HttpUtils\MimeData.cs">
+      <Link>HttpUtils\MimeData.cs</Link>
+    </Compile>
     <Compile Include="..\..\Harbour.Utils\HttpUtils\JsonResponse.cs">
       <Link>HttpUtils\JsonResponse.cs</Link>
     </Compile>
