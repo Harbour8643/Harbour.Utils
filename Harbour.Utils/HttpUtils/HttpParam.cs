@@ -1,12 +1,13 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
 using System.Net;
 using System.Text;
-using System.Web;
 
 namespace Harbour.Utils
 {
     /// <summary>
-    /// 
+    /// 请求参数类
     /// </summary>
     public class HttpParam
     {
@@ -14,83 +15,56 @@ namespace Harbour.Utils
         /// GET/POST
         /// </summary>
         public string Method { get; set; }
-
         /// <summary>
         /// Url地址
         /// </summary>
         public string Url { get; set; }
         /// <summary>
-        /// 参数类型。可选：Json、Form。默认Json。传入Form则会将new { Key1 = Value1, Key2 = Value2}转换成"key1=value1＆key2=value2"形式。
+        /// HTTP 头集合
         /// </summary>
-        public HttpParamType PostParamType { get; set; } = HttpParamType.Json;
+        public NameValueCollection CustomHeaders { get; set; }
         /// <summary>
-        /// Post参数。
-        /// <para>可以传入Json对像：new { Key1 = Value1, Key2 = Value2}</para>
-        /// <para>可以传入Json字符串：{"Key1":"Value1","Key2":"Value2"}</para>
-        /// <para>可以传入key/value字符串："key1=value1＆key2=value2"</para>
-        /// <para>可以传入xml字符串等等</para>
+        /// 请求参数
         /// </summary>
-        public object PostParam { get; set; }
+        public NameValueCollection RequestParameters { get; set; }
         /// <summary>
-        /// Get参数
-        /// <para>可以传入Json对像：new { Key1 = Value1, Key2 = Value2}</para>
-        /// <para>可以传入Json字符串：{"Key1":"Value1","Key2":"Value2"}</para>
+        /// 请求超时时间。单位：秒。默认值100秒。
         /// </summary>
-        public object GetParam { get; set; }
-        /// <summary>
-        /// 请求超时时间。单位：秒。默认值5秒。
-        /// </summary>
-        public int TimeOut { get; set; } = 5;
-
+        public int TimeOut { get; set; } = 100 * 1000;
         /// <summary>
         /// 编码方式。默认值：Encoding.UTF8
         /// </summary>
         public Encoding Encoding { get; set; } = Encoding.UTF8;
-
         /// <summary>
         /// Cookie容器
         /// </summary>
         public CookieContainer CookieContainer { get; set; }
         /// <summary>
-        /// 
-        /// </summary>
-        public string Referer { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string CertPath { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string CertPwd { get; set; }
-        /// <summary>
-        /// 
+        /// 内容类型
         /// </summary>
         public string ContentType { get; set; } = "application/x-www-form-urlencoded";
-
         /// <summary>
-        /// 
+        /// 客户端信息
         /// </summary>
         public string UserAgent { get; set; } = "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Maxthon/4.1.2.4000 Chrome/26.0.1410.43 Safari/537.1";
 
         /// <summary>
         /// FileStream
         /// </summary>
-        public FileStream FileStream { get; set; }
+        public List<UploadFileParams> UploadFiles { get; set; } = new List<UploadFileParams>();
     }
-
     /// <summary>
-    /// HttpParamType
+    /// 上传文件类
     /// </summary>
-    public enum HttpParamType
+    public class UploadFileParams
     {
         /// <summary>
-        /// json数据。默认值。
+        /// 文件名称
         /// </summary>
-        Json,
+        public string FileName { get; set; }
         /// <summary>
-        /// 形如：key=value＆key=value＆key=value
+        /// 上传文件的流
         /// </summary>
-        Form
+        public Stream FileStream { get; set; }
     }
 }

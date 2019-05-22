@@ -117,11 +117,11 @@
     <Compile Include="..\..\Harbour.Utils\HttpUtils\HttpParam.cs">
       <Link>HttpUtils\HttpParam.cs</Link>
     </Compile>
-	 <Compile Include="..\..\Harbour.Utils\HttpUtils\HttpPostFileParam.cs">
-      <Link>HttpUtils\HttpPostFileParam.cs</Link>
-    </Compile>
     <Compile Include="..\..\Harbour.Utils\HttpUtils\HttpUtils.cs">
       <Link>HttpUtils\HttpUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\HttpUtils\MimeData.cs">
+      <Link>HttpUtils\MimeData.cs</Link>
     </Compile>
     <Compile Include="..\..\Harbour.Utils\HttpUtils\JsonResponse.cs">
       <Link>HttpUtils\JsonResponse.cs</Link>
@@ -134,6 +134,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

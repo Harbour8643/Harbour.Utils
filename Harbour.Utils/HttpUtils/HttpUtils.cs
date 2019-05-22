@@ -1,12 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
-using System.Net.Security;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace Harbour.Utils
 {
@@ -31,67 +28,23 @@ namespace Harbour.Utils
             });
         }
         /// <summary>
-        /// Get Stream
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="getParam"></param>
-        /// <returns></returns>
-        public static Stream GetStream(string url, object getParam)
-        {
-            return RequestStream(new HttpParam()
-            {
-                Url = url,
-                Method = "GET",
-                GetParam = getParam
-            });
-        }
-        /// <summary>
-        /// Post Stream
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static Stream PostStream(string url)
-        {
-            return RequestStream(new HttpParam()
-            {
-                Url = url,
-                Method = "POST"
-            });
-        }
-        /// <summary>
         /// Post Stream
         /// </summary>
         /// <param name="url"></param>
         /// <param name="postParam"></param>
         /// <returns></returns>
-        public static Stream PostStream(string url, object postParam)
+        public static Stream PostStream(string url, NameValueCollection postParam = null)
         {
             return RequestStream(new HttpParam()
             {
                 Url = url,
                 Method = "POST",
-                GetParam = postParam
+                RequestParameters = postParam
             });
         }
         #endregion
 
         #region Get请求
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="getParam"></param>
-        /// <returns></returns>
-        public static string Get(string url, object getParam = null)
-        {
-            var param = new HttpParam
-            {
-                Url = url,
-                Method = "GET",
-                GetParam = getParam
-            };
-            return Get(param);
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -101,17 +54,6 @@ namespace Harbour.Utils
         {
             param.Method = "GET";
             return RequestString(param);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="getParam"></param>
-        /// <returns></returns>
-        public static T Get<T>(string url, object getParam = null)
-        {
-            var str = Get(url, getParam);
-            return JsonConvert.DeserializeObject<T>(str);
         }
         /// <summary>
         /// 
@@ -127,16 +69,6 @@ namespace Harbour.Utils
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="getParam"></param>
-        /// <returns></returns>
-        public static JsonResponse<T> GetJR<T>(string url, object getParam = null)
-        {
-            return Get<JsonResponse<T>>(url, getParam);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="param"></param>
         /// <returns></returns>
@@ -144,26 +76,43 @@ namespace Harbour.Utils
         {
             return Get<JsonResponse<T>>(param);
         }
-        #endregion
 
-        #region Post 请求
         /// <summary>
         /// 
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="postParam"></param>
         /// <returns></returns>
-        public static string Post(string url, object postParam = null)
+        public static string Get(string url)
         {
             var param = new HttpParam
             {
                 Url = url,
-                Method = "POST",
-                PostParam = postParam
+                Method = "GET",
             };
-            var str = Post(param);
-            return str;
+            return Get(param);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static T Get<T>(string url)
+        {
+            var str = Get(url);
+            return JsonConvert.DeserializeObject<T>(str);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static JsonResponse<T> GetJR<T>(string url)
+        {
+            return Get<JsonResponse<T>>(url);
+        }
+        #endregion
+
+        #region Post 请求
         /// <summary>
         /// 
         /// </summary>
@@ -174,17 +123,6 @@ namespace Harbour.Utils
             param.Method = "POST";
             var str = RequestString(param);
             return str;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="postParam"></param>
-        /// <returns></returns>
-        public static T Post<T>(string url, object postParam = null)
-        {
-            var str = Post(url, postParam);
-            return JsonConvert.DeserializeObject<T>(str);
         }
         /// <summary>
         /// 
@@ -201,16 +139,6 @@ namespace Harbour.Utils
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="postParam"></param>
-        /// <returns></returns>
-        public static JsonResponse<T> PostJR<T>(string url, object postParam = null)
-        {
-            return Post<JsonResponse<T>>(url, postParam);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="param"></param>
         /// <returns></returns>
@@ -219,32 +147,47 @@ namespace Harbour.Utils
             return Post<JsonResponse<T>>(param);
         }
 
-        #endregion
-
-        #region 文件上传
         /// <summary>
-        /// 文件上传
+        /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="param"></param>
+        /// <param name="url"></param>
+        /// <param name="postParam"></param>
         /// <returns></returns>
-        public static T PostFile<T>(HttpPostFileParam param)
+        public static string Post(string url, NameValueCollection postParam = null)
         {
-            var str = PostFileString(param);
+            var param = new HttpParam
+            {
+                Url = url,
+                Method = "POST",
+                RequestParameters = postParam
+            };
+            var str = Post(param);
+            return str;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postParam"></param>
+        /// <returns></returns>
+        public static T Post<T>(string url, NameValueCollection postParam = null)
+        {
+            var str = Post(url, postParam);
             return JsonConvert.DeserializeObject<T>(str);
         }
         /// <summary>
-        /// 文件上传
+        /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="param"></param>
+        /// <param name="url"></param>
+        /// <param name="postParam"></param>
         /// <returns></returns>
-        public static JsonResponse<T> PostFileJR<T>(HttpPostFileParam param)
+        public static JsonResponse<T> PostJR<T>(string url, NameValueCollection postParam = null)
         {
-            return PostFile<JsonResponse<T>>(param);
+            return Post<JsonResponse<T>>(url, postParam);
         }
         #endregion
 
+        #region Http相关
         /// <summary>
         /// 
         /// </summary>
@@ -258,189 +201,165 @@ namespace Harbour.Utils
             }
             return result;
         }
-        /// <summary>
-        /// 获取响应流
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        public static Stream RequestStream(HttpParam param)
-        {
-            //处理地址栏参数
-            string getParam = GetParamFormat(param.GetParam);
-            if (!string.IsNullOrWhiteSpace(getParam))
-                param.Url = $"{param.Url}?{getParam}";
 
-            HttpWebRequest httpWebRequest = WebRequest.CreateHttp(param.Url);
-
-            AddClientCertificate(httpWebRequest.ClientCertificates, param.CertPath, param.CertPwd);
-            httpWebRequest.Timeout = param.TimeOut * 1000;
-            httpWebRequest.UserAgent = param.UserAgent;
-            httpWebRequest.Method = param.Method ?? "POST";
-            httpWebRequest.Referer = param.Referer;
-            httpWebRequest.CookieContainer = param.CookieContainer;
-            httpWebRequest.ContentType = param.ContentType;
-
-            var postParamString = PostParamFormat(param.PostParam, param.PostParamType);
-            if (!string.IsNullOrWhiteSpace(postParamString))
-            {
-                byte[] postParamByte = param.Encoding.GetBytes(postParamString);
-                httpWebRequest.ContentLength = postParamByte.Length;
-                using (Stream stream = httpWebRequest.GetRequestStream())
-                {
-                    stream.Write(postParamByte, 0, postParamByte.Length);
-                }
-            }
-            return httpWebRequest.GetResponse().GetResponseStream();
-        }
-
-
-        /// <summary>
-        /// 文件上传
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        public static string PostFileString(HttpPostFileParam param)
-        {
-            var result = "";
-            using (var reader = new StreamReader(PostFileStream(param), param.Encoding))
-            {
-                result = reader.ReadToEnd();
-            }
-            return result;
-        }
         /// <summary>
         /// 文件上传至远程服务器
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public static Stream PostFileStream(HttpPostFileParam param)
+        public static Stream RequestStream(HttpParam param)
         {
-            HttpWebRequest httpWebRequest = WebRequest.CreateHttp(param.Url);
+            string url = param.Url;
 
-            httpWebRequest.Timeout = param.TimeOut * 1000;
-            httpWebRequest.UserAgent = param.UserAgent;
-            httpWebRequest.Method = "POST";
-
-            string boundary = "----" + Guid.NewGuid().ToString().Replace("-", "");
-
-            httpWebRequest.ContentType = "multipart/mixed;boundary=" + boundary;
-
-            using (Stream stream = httpWebRequest.GetRequestStream())
+            //文件上传必须是Post、multipart/form-data
+            if (param.UploadFiles.Count > 0)
             {
-                int contentLength = 0;
-                var postParamString = PostParamFormat(param.PostParam, param.PostParamType);
-                if (!string.IsNullOrWhiteSpace(postParamString))
-                {
-                    byte[] paramByte = param.Encoding.GetBytes(postParamString);
-                    stream.Write(paramByte, 0, paramByte.Length);
-                    contentLength += paramByte.Length;
-                }
-                int index = 1;
-                string baseDisposition = "Content-Disposition:form-data;name=\"{0}\";filename=\"{1}\"\r\nContent-Type:{2}\r\n\r\n";
-                foreach (UploadFileParams uploadFile in param.UploadFiles)
-                {
-                    //分隔符
-                    if (index != 1 || !string.IsNullOrWhiteSpace(postParamString))
-                    {
-                        byte[] boundaryParm = param.Encoding.GetBytes($"\r\n--{boundary}\r\n");
-                        stream.Write(boundaryParm, 0, boundaryParm.Length);
-                        contentLength += boundaryParm.Length;
-                    }
-                    //文件描述
-                    string contentDisposition = string.Format(baseDisposition, uploadFile.Name, uploadFile.FileName, uploadFile.ContentType);
-                    var disByte = Encoding.ASCII.GetBytes(contentDisposition);
-                    stream.Write(disByte, 0, disByte.Length);
-                    contentLength += disByte.Length;
-                    //文件
-                    byte[] fileByte = uploadFile.FileStream.TryToBytes();
-                    stream.Write(fileByte, 0, fileByte.Length);
-                    contentLength += fileByte.Length;
-                    index += 1;
-                }
-                //结束分隔符
-                if (!string.IsNullOrWhiteSpace(postParamString) || param.UploadFiles.Count > 0)
-                {
-                    byte[] boundaryEnd = param.Encoding.GetBytes($"\r\n--{boundary}--\r\n");
-                    stream.Write(boundaryEnd, 0, boundaryEnd.Length);
-                    contentLength += boundaryEnd.Length;
-                }
-                httpWebRequest.ContentLength = contentLength;
+                param.Method = "POST";
+                param.ContentType = "multipart/form-data";
             }
 
+            if (string.IsNullOrEmpty(param.Method))
+                param.Method = "GET";
+            param.Method = param.Method.ToUpper();
+
+            if (string.IsNullOrEmpty(param.ContentType))
+                param.ContentType = "application/x-www-form-urlencoded";
+
+            //如果是GET请求，处理请求参数
+            if ("GET".Equals(param.Method) && param.RequestParameters != null && param.RequestParameters.Count > 0)
+            {
+                string[] nameVals = NameValueCollectionFormat(param.RequestParameters);
+                string nameValStr = string.Join("&", nameVals);
+                if (url.Contains("?"))
+                    url += "&" + nameValStr;
+                else
+                    url += "?" + nameValStr;
+            }
+
+            HttpWebRequest httpWebRequest = CreatHttpWebRequest(url);
+
+            //处理自定义请求头信息
+            if (param.CustomHeaders != null && param.CustomHeaders.Count > 0)
+            {
+                string[] nameVals = NameValueCollectionFormat(param.RequestParameters);
+                foreach (string nameVal in nameVals)
+                {
+                    string[] arr = nameVal.Split('=');
+                    if (arr.Length == 2)
+                        httpWebRequest.Headers.Add(arr[0], arr[1]);
+                }
+            }
+
+            httpWebRequest.Method = param.Method;
+            httpWebRequest.UserAgent = param.UserAgent;
+            httpWebRequest.Accept = "*/*";
+            httpWebRequest.Timeout = param.TimeOut * 1000;
+            httpWebRequest.CookieContainer = param.CookieContainer;
+            httpWebRequest.ContentType = $"{param.ContentType}";
+
+            if ("POST".Equals(param.Method))
+            {
+                MemoryStream memoryStream = new MemoryStream();
+
+                if (param.ContentType.Contains("multipart/form-data"))
+                {
+                    string boundary = Guid.NewGuid().ToString().Replace("-", "");
+                    httpWebRequest.ContentType = $"multipart/form-data; boundary={boundary}";
+                    //Post的参数
+                    if (param.RequestParameters != null && param.RequestParameters.Count > 0)
+                    {
+                        string[] nameVals = NameValueCollectionFormat(param.RequestParameters);
+                        string _textFormdataTemplate = "--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\"" + "\r\n\r\n{1}\r\n";
+                        string postParamStr = "";
+                        foreach (string nameVal in nameVals)
+                        {
+                            string[] arr = nameVal.Split('=');
+                            if (arr.Length != 2)
+                                continue;
+                            postParamStr += string.Format(_textFormdataTemplate, arr[0], arr[1]);
+                        }
+
+                        byte[] postParams = param.Encoding.GetBytes(postParamStr);
+                        memoryStream.Write(postParams, 0, postParams.Length);
+                    }
+                    //Post的文件
+                    if (param.UploadFiles != null && param.UploadFiles.Count > 0)
+                    {
+                        string fileFormdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{0}\"\r\nContent-Type: {1}\r\n\r\n";
+                        foreach (UploadFileParams uploadFile in param.UploadFiles)
+                        {
+                            string contentType = MimeData.GetContentType(uploadFile.FileName);
+                            string fileFormdata = string.Format(fileFormdataTemplate, uploadFile.FileName, contentType);
+                            byte[] fileFormdataByte = param.Encoding.GetBytes(fileFormdata);
+                            memoryStream.Write(fileFormdataByte, 0, fileFormdataByte.Length);
+
+                            byte[] fileByte = uploadFile.FileStream.TryToBytes();
+                            memoryStream.Write(fileByte, 0, fileByte.Length);
+                        }
+
+                        if (memoryStream.Length > 0)
+                        {
+                            byte[] endBoundary = param.Encoding.GetBytes($"--{boundary}--\r\n");
+                            memoryStream.Write(endBoundary, 0, endBoundary.Length);
+                        }
+                    }
+                }
+                else
+                {
+                    string[] nameVals = NameValueCollectionFormat(param.RequestParameters);
+                    string nameValStr = string.Join("&", nameVals);
+                    byte[] postParams = param.Encoding.GetBytes(nameValStr);
+                    memoryStream.Write(postParams, 0, postParams.Length);
+                }
+
+                if (memoryStream.Length > 0)
+                {
+                    using (Stream stream = httpWebRequest.GetRequestStream())
+                    {
+                        byte[] postParamByte = memoryStream.ToArray();
+                        stream.Write(postParamByte, 0, postParamByte.Length);
+                    }
+                }
+            }
             return httpWebRequest.GetResponse().GetResponseStream();
         }
 
         /// <summary>
-        /// 添加安全证书
+        /// 创建HttpWebRequest
         /// </summary>
-        /// <param name="certificateCollection"></param>
-        /// <param name="certPath"></param>
-        /// <param name="certPwd"></param>
-        private static void AddClientCertificate(X509CertificateCollection certificateCollection, string certPath, string certPwd)
-        {
-            if (!string.IsNullOrWhiteSpace(certPath) && !string.IsNullOrWhiteSpace(certPwd))
-            {
-                ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
-                var cer = new X509Certificate2(certPath, certPwd, X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.MachineKeySet);
-                certificateCollection.Add(cer);
-                //暂时不要的
-                //ServicePointManager.Expect100Continue = true;
-                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
-                //req.ProtocolVersion = HttpVersion.Version11;
-                //req.Headers.Add("x-requested-with", "XMLHttpRequest");
-            }
-        }
-        private static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// 格式化GetParam
-        /// </summary>
-        /// <param name="getParam"></param>
+        /// <param name="url"></param>
         /// <returns></returns>
-        private static string GetParamFormat(object getParam)
+        private static HttpWebRequest CreatHttpWebRequest(string url)
         {
-            if (getParam == null)
-                return null;
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentNullException("url");
 
-            if (getParam is string)
-                return getParam.ToString();
-
-            StringBuilder getParamSb = new StringBuilder();
-            PropertyInfo[] propertyInfos = getParam.GetType().GetProperties();
-            foreach (PropertyInfo propertyInfo in propertyInfos)
+            HttpWebRequest request = null;
+            //如果是发送HTTPS请求 
+            if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
             {
-                getParamSb.AppendFormat($"{propertyInfo.Name}={propertyInfo.GetValue(getParam, null)}&");
+                //ServicePointManager.SecurityProtocol = spt; //不指定,使之自动协商/适应, 避免指定的版本与服务器不一样反而连不上
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true; //总是接受
+                request = WebRequest.CreateHttp(url);
+                //request.ProtocolVersion = HttpVersion.Version10;
             }
-            return getParamSb.ToString().TrimEnd('&');
+            else
+            {
+                request = WebRequest.CreateHttp(url);
+            }
+            return request;
         }
-        /// <summary>
-        /// 格式化PostParam
-        /// </summary>
-        /// <param name="postParam"></param>
-        /// <param name="paramType"></param>
-        /// <returns></returns>
-        private static string PostParamFormat(object postParam, HttpParamType paramType)
+        private static string[] NameValueCollectionFormat(NameValueCollection nameValues)
         {
-            if (postParam == null)
-                return null;
-
-            if (postParam is string)
-                return postParam.ToString();
-
-            if (paramType != HttpParamType.Form)
-                return JsonConvert.SerializeObject(postParam);
-
-            string postParamStr = JsonConvert.SerializeObject(postParam);
-            Dictionary<string, string> dicParam = JsonConvert.DeserializeObject<Dictionary<string, string>>(postParamStr);
-            StringBuilder getParamSb = new StringBuilder();
-            foreach (KeyValuePair<string, string> kvVal in dicParam)
+            List<string> nameVals = new List<string>();
+            string[] allKey = nameValues.AllKeys;
+            foreach (string name in allKey)
             {
-                getParamSb.AppendFormat($"{kvVal.Key}={kvVal.Value}&");
+                string val = nameValues.Get(name);
+                nameVals.Add($"{name}={val}");
             }
-            return getParamSb.ToString().TrimEnd('&');
+            return nameVals.ToArray();
         }
+        #endregion
     }
 }
