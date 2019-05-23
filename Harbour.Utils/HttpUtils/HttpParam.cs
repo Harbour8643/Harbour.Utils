@@ -22,11 +22,11 @@ namespace Harbour.Utils
         /// <summary>
         /// HTTP 头集合
         /// </summary>
-        public NameValueCollection CustomHeaders { get; set; }
+        public NameValueCollection CustomHeaders { get; set; } = new NameValueCollection();
         /// <summary>
         /// 请求参数
         /// </summary>
-        public NameValueCollection RequestParameters { get; set; }
+        public NameValueCollection RequestParameters { get; set; } = new NameValueCollection();
         /// <summary>
         /// 请求超时时间。单位：秒。默认值100秒。
         /// </summary>
@@ -38,7 +38,7 @@ namespace Harbour.Utils
         /// <summary>
         /// Cookie容器
         /// </summary>
-        public CookieContainer CookieContainer { get; set; }
+        public CookieContainer CookieContainer { get; set; } = new CookieContainer();
         /// <summary>
         /// 内容类型
         /// </summary>

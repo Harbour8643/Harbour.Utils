@@ -38,7 +38,8 @@ namespace Harbour.Utils
             if (fileName != null)
                 fileType = System.IO.Path.GetExtension(fileName);
 
-            fileType = fileType.Trim().TrimStart(new char[1] { '.' });
+            if (!string.IsNullOrEmpty(fileType))
+                fileType = fileType.Trim().ToLower().TrimStart(new char[1] { '.' });
 
             if (_mimeDict.ContainsKey(fileType))
                 return _mimeDict[fileType];
