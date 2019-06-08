@@ -344,7 +344,7 @@ namespace Harbour.Utils
                     byte[] postParams = param.Encoding.GetBytes(nameValStr);
                     memoryStream.Write(postParams, 0, postParams.Length);
                 }
-
+                //没有关闭
                 if (memoryStream.Length > 0)
                 {
                     using (Stream stream = httpWebRequest.GetRequestStream())
