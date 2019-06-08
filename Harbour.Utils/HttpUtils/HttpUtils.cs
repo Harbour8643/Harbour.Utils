@@ -291,66 +291,66 @@ namespace Harbour.Utils
             //如果是POST请求，处理请求参数
             if ("POST".Equals(param.Method))
             {
-                MemoryStream memoryStream = new MemoryStream();
-
-                if (param.ContentType.Contains("multipart/form-data"))
+                using (MemoryStream memoryStream = new MemoryStream())
                 {
-                    //分隔符、ContentType
-                    string boundary = Guid.NewGuid().ToString().Replace("-", "");
-                    httpWebRequest.ContentType = $"multipart/form-data; boundary={boundary}";
-                    //Post的参数
-                    if (param.RequestParameters != null && param.RequestParameters.Count > 0)
+                    if (param.ContentType.Contains("multipart/form-data"))
+                    {
+                        //分隔符、ContentType
+                        string boundary = Guid.NewGuid().ToString().Replace("-", "");
+                        httpWebRequest.ContentType = $"multipart/form-data; boundary={boundary}";
+                        //Post的参数
+                        if (param.RequestParameters != null && param.RequestParameters.Count > 0)
+                        {
+                            string[] nameVals = NameValueCollectionFormat(param.RequestParameters);
+                            string _textFormdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\"" + "\r\n\r\n{1}";
+                            string postParamStr = "";
+                            foreach (string nameVal in nameVals)
+                            {
+                                string[] arr = nameVal.Split('=');
+                                if (arr.Length != 2)
+                                    continue;
+                                postParamStr += string.Format(_textFormdataTemplate, arr[0], arr[1]);
+                            }
+
+                            byte[] postParams = param.Encoding.GetBytes(postParamStr);
+                            memoryStream.Write(postParams, 0, postParams.Length);
+                        }
+                        //Post的文件
+                        if (param.UploadFiles != null && param.UploadFiles.Count > 0)
+                        {
+                            string fileFormdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{0}\"\r\nContent-Type: {1}\r\n\r\n";
+                            foreach (UploadFileParams uploadFile in param.UploadFiles)
+                            {
+                                string contentType = MimeData.GetContentType(uploadFile.FileName);
+                                string fileFormdata = string.Format(fileFormdataTemplate, uploadFile.FileName, contentType);
+                                byte[] fileFormdataByte = param.Encoding.GetBytes(fileFormdata);
+                                memoryStream.Write(fileFormdataByte, 0, fileFormdataByte.Length);
+
+                                byte[] fileByte = uploadFile.FileStream.TryToBytes();
+                                memoryStream.Write(fileByte, 0, fileByte.Length);
+                            }
+                        }
+                        //添加结束分隔符
+                        if (memoryStream.Length > 0)
+                        {
+                            byte[] endBoundary = param.Encoding.GetBytes($"\r\n--{boundary}--\r\n");
+                            memoryStream.Write(endBoundary, 0, endBoundary.Length);
+                        }
+                    }
+                    else
                     {
                         string[] nameVals = NameValueCollectionFormat(param.RequestParameters);
-                        string _textFormdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\"" + "\r\n\r\n{1}";
-                        string postParamStr = "";
-                        foreach (string nameVal in nameVals)
-                        {
-                            string[] arr = nameVal.Split('=');
-                            if (arr.Length != 2)
-                                continue;
-                            postParamStr += string.Format(_textFormdataTemplate, arr[0], arr[1]);
-                        }
-
-                        byte[] postParams = param.Encoding.GetBytes(postParamStr);
+                        string nameValStr = string.Join("&", nameVals);
+                        byte[] postParams = param.Encoding.GetBytes(nameValStr);
                         memoryStream.Write(postParams, 0, postParams.Length);
                     }
-                    //Post的文件
-                    if (param.UploadFiles != null && param.UploadFiles.Count > 0)
-                    {
-                        string fileFormdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{0}\"\r\nContent-Type: {1}\r\n\r\n";
-                        foreach (UploadFileParams uploadFile in param.UploadFiles)
-                        {
-                            string contentType = MimeData.GetContentType(uploadFile.FileName);
-                            string fileFormdata = string.Format(fileFormdataTemplate, uploadFile.FileName, contentType);
-                            byte[] fileFormdataByte = param.Encoding.GetBytes(fileFormdata);
-                            memoryStream.Write(fileFormdataByte, 0, fileFormdataByte.Length);
-
-                            byte[] fileByte = uploadFile.FileStream.TryToBytes();
-                            memoryStream.Write(fileByte, 0, fileByte.Length);
-                        }
-                    }
-                    //添加结束分隔符
                     if (memoryStream.Length > 0)
                     {
-                        byte[] endBoundary = param.Encoding.GetBytes($"\r\n--{boundary}--\r\n");
-                        memoryStream.Write(endBoundary, 0, endBoundary.Length);
-                    }
-                }
-                else
-                {
-                    string[] nameVals = NameValueCollectionFormat(param.RequestParameters);
-                    string nameValStr = string.Join("&", nameVals);
-                    byte[] postParams = param.Encoding.GetBytes(nameValStr);
-                    memoryStream.Write(postParams, 0, postParams.Length);
-                }
-                //没有关闭
-                if (memoryStream.Length > 0)
-                {
-                    using (Stream stream = httpWebRequest.GetRequestStream())
-                    {
-                        byte[] postParamByte = memoryStream.ToArray();
-                        stream.Write(postParamByte, 0, postParamByte.Length);
+                        using (Stream stream = httpWebRequest.GetRequestStream())
+                        {
+                            byte[] postParamByte = memoryStream.ToArray();
+                            stream.Write(postParamByte, 0, postParamByte.Length);
+                        }
                     }
                 }
             }
