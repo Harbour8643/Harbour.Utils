@@ -45,9 +45,9 @@ namespace Harbour.Utils
         /// <typeparam name="T"></typeparam>
         /// <param name="param"></param>
         /// <returns></returns>
-        public static JsonResponse<T> GetJR<T>(HttpParam param)
+        public static JsonData<T> GetJR<T>(HttpParam param)
         {
-            return Get<JsonResponse<T>>(param);
+            return Get<JsonData<T>>(param);
         }
 
 
@@ -107,9 +107,9 @@ namespace Harbour.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static JsonResponse<T> GetJR<T>(string url)
+        public static JsonData<T> GetJR<T>(string url)
         {
-            return Get<JsonResponse<T>>(url);
+            return Get<JsonData<T>>(url);
         }
         #endregion
 
@@ -147,9 +147,9 @@ namespace Harbour.Utils
         /// <typeparam name="T"></typeparam>
         /// <param name="param"></param>
         /// <returns></returns>
-        public static JsonResponse<T> PostJR<T>(HttpParam param)
+        public static JsonData<T> PostJR<T>(HttpParam param)
         {
-            return Post<JsonResponse<T>>(param);
+            return Post<JsonData<T>>(param);
         }
 
         /// <summary>
@@ -218,9 +218,9 @@ namespace Harbour.Utils
         /// <param name="url"></param>
         /// <param name="postParam"></param>
         /// <returns></returns>
-        public static JsonResponse<T> PostJR<T>(string url, NameValueCollection postParam = null)
+        public static JsonData<T> PostJR<T>(string url, NameValueCollection postParam = null)
         {
-            return Post<JsonResponse<T>>(url, postParam);
+            return Post<JsonData<T>>(url, postParam);
         }
         #endregion
 

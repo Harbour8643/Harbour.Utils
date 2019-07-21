@@ -3,19 +3,19 @@
     /// <summary>
     /// Json返回值类
     /// </summary>
-    public class JsonResponse<T>
+    public class JsonData<T>
     {
         /// <summary>
-        /// 实例化JsonResponse
+        /// JsonData
         /// </summary>
-        public JsonResponse() { }
+        public JsonData() { }
         /// <summary>
-        /// 实例化JsonResponse
+        /// JsonData
         /// </summary>
         /// <param name="Code"></param>
         /// <param name="Msg"></param>
         /// <param name="Data"></param>
-        public JsonResponse(string Code, string Msg, T Data)
+        public JsonData(string Code, string Msg, T Data)
         {
             this.Code = Code;
             this.Msg = Msg;

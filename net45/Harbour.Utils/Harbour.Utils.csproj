@@ -96,9 +96,6 @@
     <Compile Include="..\..\Harbour.Utils\HarbourHelper\ConfigHelper.cs">
       <Link>HarbourHelper\ConfigHelper.cs</Link>
     </Compile>
-    <Compile Include="..\..\Harbour.Utils\HarbourHelper\LogHelper.cs">
-      <Link>HarbourHelper\LogHelper.cs</Link>
-    </Compile>
     <Compile Include="..\..\Harbour.Utils\HarbourHelper\RandomHelper.cs">
       <Link>HarbourHelper\RandomHelper.cs</Link>
     </Compile>
@@ -123,8 +120,32 @@
     <Compile Include="..\..\Harbour.Utils\HttpUtils\MimeData.cs">
       <Link>HttpUtils\MimeData.cs</Link>
     </Compile>
-    <Compile Include="..\..\Harbour.Utils\HttpUtils\JsonResponse.cs">
-      <Link>HttpUtils\JsonResponse.cs</Link>
+    <Compile Include="..\..\Harbour.Utils\HttpUtils\JsonData.cs">
+      <Link>HttpUtils\JsonData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Logging\Common\ILogger.cs">
+      <Link>Logging\Common\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Logging\Common\ILoggerProvider.cs">
+      <Link>Logging\Common\ILoggerProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Logging\Common\LoggerExtensions.cs">
+      <Link>Logging\Common\LoggerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Logging\Common\LogLevel.cs">
+      <Link>Logging\Common\LogLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Logging\FileLog\FileLogger.cs">
+      <Link>Logging\FileLog\FileLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Logging\FileLog\FileLoggerOptions.cs">
+      <Link>Logging\FileLog\FileLoggerOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Logging\FileLog\FileLoggerProvider.cs">
+      <Link>Logging\FileLog\FileLoggerProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Harbour.Utils\Logging\FileLog\FileLoggerWriter.cs">
+      <Link>Logging\FileLog\FileLoggerWriter.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
